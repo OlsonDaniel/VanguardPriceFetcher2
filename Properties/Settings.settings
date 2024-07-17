@@ -1,0 +1,36 @@
+﻿<?xml version='1.0' encoding='utf-8'?>
+<SettingsFile xmlns="http://schemas.microsoft.com/VisualStudio/2004/01/settings" CurrentProfile="(Default)" GeneratedClassNamespace="VanguardPriceFetcher.Properties" GeneratedClassName="Settings">
+  <Profiles />
+  <Settings>
+    <Setting Name="DownloadPath" Type="System.String" Scope="User">
+      <Value Profile="(Default)">C:\Users\jrpjobsvc\Downloads</Value>
+    </Setting>
+    <Setting Name="EmailDomain" Type="System.String" Scope="User">
+      <Value Profile="(Default)">@jasperridge.com</Value>
+    </Setting>
+    <Setting Name="Smtp" Type="System.String" Scope="User">
+      <Value Profile="(Default)">fwrelay.jasperridge.com</Value>
+    </Setting>
+    <Setting Name="JRP7012Prod" Type="(Connection string)" Scope="Application">
+      <DesignTimeValue Profile="(Default)">&lt;?xml version="1.0" encoding="utf-16"?&gt;
+&lt;SerializableConnectionString xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"&gt;
+  &lt;ConnectionString&gt;Data Source=SQLCLUSTER;Initial Catalog=JRP7012PROD;Integrated Security=True&lt;/ConnectionString&gt;
+&lt;/SerializableConnectionString&gt;</DesignTimeValue>
+      <Value Profile="(Default)">Data Source=SQLCLUSTER;Initial Catalog=JRP7012PROD;Integrated Security=True</Value>
+    </Setting>
+    <Setting Name="Bloomberg" Type="(Connection string)" Scope="Application">
+      <DesignTimeValue Profile="(Default)">&lt;?xml version="1.0" encoding="utf-16"?&gt;
+&lt;SerializableConnectionString xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"&gt;
+  &lt;ConnectionString&gt;Data Source=SQLCLUSTER;Initial Catalog=Bloomberg;Integrated Security=True&lt;/ConnectionString&gt;
+  &lt;ProviderName&gt;System.Data.SqlClient&lt;/ProviderName&gt;
+&lt;/SerializableConnectionString&gt;</DesignTimeValue>
+      <Value Profile="(Default)">Data Source=SQLCLUSTER;Initial Catalog=Bloomberg;Integrated Security=True</Value>
+    </Setting>
+    <Setting Name="adminEmail" Type="System.String" Scope="User">
+      <Value Profile="(Default)">dev@jasperridge.com; b305441f.JasperRidgePartners.onmicrosoft.com@amer.teams.ms;</Value>
+    </Setting>
+    <Setting Name="TeamsEmail" Type="System.String" Scope="User">
+      <Value Profile="(Default)">b305441f.JasperRidgePartners.onmicrosoft.com@amer.teams.ms;</Value>
+    </Setting>
+  </Settings>
+</SettingsFile>

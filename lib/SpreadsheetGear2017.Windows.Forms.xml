@@ -1,0 +1,1939 @@
+<?xml version="1.0"?>
+<doc>
+  <assembly>
+    <name>SpreadsheetGear2017.Windows.Forms</name>
+  </assembly>
+  <members>
+    <member name="T:SpreadsheetGear.Windows.Forms.FormulaBar">
+      <summary>
+            Represents a FormulaBar control.  The formula bar will automatically
+            connect to the active WorkbookView control contained within the same container.
+            </summary>
+    </member>
+    <member name="M:SpreadsheetGear.Windows.Forms.FormulaBar.#ctor">
+      <summary>
+            Initializes a new instance of a SpreadsheetGear.Windows.Forms.FormulaBar control.
+            </summary>
+    </member>
+    <member name="T:SpreadsheetGear.Windows.Forms.UIManager">
+      <summary>
+            Provides the ability to override user interface functionality.
+            </summary>
+    </member>
+    <member name="M:SpreadsheetGear.Windows.Forms.UIManager.#ctor(SpreadsheetGear.IWorkbookSet)">
+      <summary>
+            Initializes a new instance of <strong>UIManager</strong> with the specified
+            <strong>IWorkbookSet</strong>.
+            </summary>
+      <param name="workbookSet">
+            Specifies the workbook set which will own this
+            <strong>UIManager</strong>.
+            </param>
+    </member>
+    <member name="M:SpreadsheetGear.Windows.Forms.UIManager.CreateCustomControl(SpreadsheetGear.Shapes.IShape)">
+      <summary>Returns the <strong>Control</strong> to use in place of the specified 
+            autoshape or <strong>null</strong> if the default autoshape should be used.</summary>
+      <param name="shape">Specifies the shape in question; check the 
+            <strong>ID</strong> or <strong>Name</strong> property to distinguish one shape from another.</param>
+      <remarks>
+        <para>Override this method to provide a custom control replacement for an autoshape. Worksheet form 
+            controls such as checkboxes cannot be replaced.</para>
+        <para>The control will be disposed of as soon as it is scrolled out of view
+            and <strong>CreateCustomControl</strong> will be
+            called again if it is scrolled back into view.</para>
+      </remarks>
+    </member>
+    <member name="T:SpreadsheetGear.Windows.Forms.WorkbookView">
+      <summary>
+            Provides a fully functional spreadsheet control which supports rich functionality
+            including familiar keyboard and mouse selections, in-cell editing, a <b>FormulaBar</b>
+            control, goto, cut, copy, paste, clear, undo, redo, printing, interruptible background
+            calculation, real time workbook updates, multiple workbooks, <b>DisplayReference</b>,
+            <b>WorkbookDesigner</b>, <b>WorkbookExplorer</b>, <b>RangeExplorer</b>, <b>ChartExplorer</b>,
+            <b>ShapeExplorer</b> and more.
+            </summary>
+      <remarks>
+        <para>
+                    The <see cref="T:SpreadsheetGear.Windows.Forms.WorkbookView" /> control adheres to the standard Windows
+                    Forms threading model. Accessing any members of a
+                    WorkbookView must be done from the thread which created the
+                    WorkbookView.
+                </para>
+        <para>
+                    For important information about the threading model of SpreadsheetGear
+                    see <see cref="M:SpreadsheetGear.IWorkbookSet.GetLock" /> and
+                    <see cref="M:SpreadsheetGear.IWorkbookSet.ReleaseLock" />.
+                </para>
+        <para>
+                    To modify the workbook(s) associated with a WorkbookView at
+                    design time, right click on the WorkbookView and select
+                    <strong>Workbook Designer</strong>. From the <strong>Workbook
+                    Designer</strong>, you can open, edit, format, save and close workbooks. The
+                    workbooks which are left open in the <strong>Workbook Designer</strong> when
+                    the designer is closed will be saved with the form containing the
+                    WorkbookView, and will be loaded into the workbook set
+                    associated with the WorkbookView when the form is created at
+                    run time.
+                </para>
+        <para>
+                    The <see cref="P:SpreadsheetGear.Windows.Forms.WorkbookView.RangeSelection" />, <see cref="P:SpreadsheetGear.Windows.Forms.WorkbookView.ActiveCell" />,
+                    <see cref="P:SpreadsheetGear.Windows.Forms.WorkbookView.ActiveWorksheet" />, <see cref="P:SpreadsheetGear.Windows.Forms.WorkbookView.ActiveWorkbook" /> and
+                    <see cref="P:SpreadsheetGear.Windows.Forms.WorkbookView.ActiveWorkbookSet" /> properties are the most commonly used
+                    workbook view properties.
+                </para>
+        <para>
+                    Use the <see cref="P:SpreadsheetGear.Windows.Forms.WorkbookView.DisplayReference" /> and
+                    <see cref="P:SpreadsheetGear.Windows.Forms.WorkbookView.DisplayReferenceName" /> properties to control which workbook or
+                    which worksheet ranges are displayed in the workbook view. The
+                    <strong>DisplayReference</strong> property provides the ability to display
+                    multiple workbooks in a single workbook view control, as well as the ability to
+                    limit what the user of the workbook view control is able to see.
+                </para>
+        <para>
+                    The <see cref="E:SpreadsheetGear.Windows.Forms.WorkbookView.RangeChanged" />, <see cref="E:SpreadsheetGear.Windows.Forms.WorkbookView.RangeSelectionChanged" />
+                    and <see cref="E:SpreadsheetGear.Windows.Forms.WorkbookView.Calculate" /> events are the most commonly used workbook
+                    view events.
+                </para>
+      </remarks>
+      <seealso cref="P:SpreadsheetGear.Windows.Forms.WorkbookView.FormulaBar" />
+      <seealso cref="P:SpreadsheetGear.Windows.Forms.WorkbookView.DisplayReference" />
+      <seealso cref="T:SpreadsheetGear.Windows.Forms.WorkbookDesigner" />
+      <seealso cref="T:SpreadsheetGear.Windows.Forms.WorkbookExplorer" />
+      <seealso cref="T:SpreadsheetGear.Windows.Forms.RangeExplorer" />
+      <seealso cref="T:SpreadsheetGear.Windows.Forms.ChartExplorer" />
+      <seealso cref="T:SpreadsheetGear.Windows.Forms.ShapeExplorer" />
+    </member>
+    <member name="M:SpreadsheetGear.Windows.Forms.WorkbookView.#ctor(SpreadsheetGear.IWorkbook)">
+      <summary>
+                Initializes a new instance of a <see cref="T:SpreadsheetGear.Windows.Forms.WorkbookView" /> control with the
+                specified <see cref="T:SpreadsheetGear.IWorkbook">workbook</see>.
+            </summary>
+      <param name="workbook">The <see cref="T:SpreadsheetGear.IWorkbook">workbook</see> to view in the control.</param>
+    </member>
+    <member name="P:SpreadsheetGear.Windows.Forms.WorkbookView.AllowChartExplorer">
+      <summary>
+                Gets or sets the property which specifies whether the
+                <see cref="T:SpreadsheetGear.Windows.Forms.ChartExplorer">Chart Explorer</see> can be launched from the
+                workbook view.
+            </summary>
+    </member>
+    <member name="P:SpreadsheetGear.Windows.Forms.WorkbookView.AllowEditCommands">
+      <summary>
+        <para>Gets or sets the property which specifies whether various workbook editing
+                commands can be executed with the keyboard.</para>
+      </summary>
+    </member>
+    <member name="P:SpreadsheetGear.Windows.Forms.WorkbookView.AllowRangeExplorer">
+      <summary>
+                Gets or sets the property which specifies whether the
+                <see cref="T:SpreadsheetGear.Windows.Forms.RangeExplorer">Range Explorer</see> can be launched from the
+                workbook view.
+            </summary>
+    </member>
+    <member name="P:SpreadsheetGear.Windows.Forms.WorkbookView.AllowShapeExplorer">
+      <summary>
+                Gets or sets the property which specifies whether the
+                <see cref="T:SpreadsheetGear.Windows.Forms.ShapeExplorer">Shape Explorer</see> can be launched from the
+                workbook view.
+            </summary>
+    </member>
+    <member name="P:SpreadsheetGear.Windows.Forms.WorkbookView.AllowWorkbookDesigner">
+      <summary>
+                Gets or sets the property which specifies whether the
+                <see cref="T:SpreadsheetGear.Windows.Forms.WorkbookDesigner">Workbook Designer</see> can be launched from the
+                workbook view.
+            </summary>
+    </member>
+    <member name="P:SpreadsheetGear.Windows.Forms.WorkbookView.AllowWorkbookExplorer">
+      <summary>
+                Gets or sets the property which specifies whether the
+                <see cref="T:SpreadsheetGear.Windows.Forms.WorkbookExplorer">Workbook Explorer</see> can be launched from the
+                workbook view.
+            </summary>
+    </member>
+    <member name="P:SpreadsheetGear.Windows.Forms.WorkbookView.BackgroundCalculation">
+      <summary>
+            Gets or sets the property which specifies whether background calculation is enabled
+            for the workbook set.
+            </summary>
+            See <see cref="P:SpreadsheetGear.IWorkbookSet.BackgroundCalculation" />, 
+            <see cref="M:SpreadsheetGear.IWorkbookSet.GetLock" />, and 
+            <see cref="M:SpreadsheetGear.IWorkbookSet.ReleaseLock" /> for more information.
+        </member>
+    <member name="P:SpreadsheetGear.Windows.Forms.WorkbookView.DisplayReference">
+      <summary>
+            Gets or sets the property which specifies which workbook or set of cell ranges to
+            display in the workbook view.
+            </summary>
+      <remarks>
+        <para>Use the <strong>DisplayReference</strong> property to specify what should be
+                displayed for each "sheet tab" of the workbook view control.</para>
+        <para>
+          <see cref="P:SpreadsheetGear.Windows.Forms.WorkbookView.DisplayReference" /> takes a comma separated list of formulas
+                    which must return a range. These formulas are evaluated each time a calculation
+                    completes in the <see cref="T:SpreadsheetGear.IWorkbookSet">workbook set</see>
+                    associated with the workbook view control, by calling the
+                    <see cref="M:SpreadsheetGear.ISheet.EvaluateRange(System.String)" /> method of the first
+                    <see cref="T:SpreadsheetGear.IWorksheet">worksheet</see> of the first
+                    <see cref="T:SpreadsheetGear.IWorkbook">workbook</see> of the workbook set.
+                </para>
+        <para>Examples of valid settings for <strong>DisplayReference</strong>
+                include:</para>
+        <list type="bullet">
+          <item>"" displays the first workbook of the workbook set.</item>
+          <item>"A1:C3" displays the range A1:C3 from the first worksheet of the first
+                    workbook.</item>
+          <item>"Book2" displays the workbook named "Book2".</item>
+          <item>"[Book1]Sheet1!A1:C3, Book2!MyName" displays the range A1:C3 from the
+                    worksheet "Sheet1" of the workbook "Book1" on the first "sheet tab", and
+                    displays the range referred to by the defined name "MyName" of workbook "Book2"
+                    on the second sheet tab.</item>
+          <item>"INDIRECT([Book1]Sheet1!A1)" displays the range referred to by the text
+                    in the cell A1 of the worksheet "Sheet1" of the workbook "Book1".</item>
+        </list>
+        <para class="xmldocbulletlist">
+                    Use the <see cref="P:SpreadsheetGear.Windows.Forms.WorkbookView.DisplayReferenceName" /> property to specify the text to
+                    display on each "sheet tab".
+                </para>
+      </remarks>
+      <seealso cref="P:SpreadsheetGear.Windows.Forms.WorkbookView.DisplayReferenceName" />
+      <example>
+        <code lang="CS">
+            /*
+                     * Demonstrate DisplayReference and DisplayReferenceName usage.
+                     */
+                    private void radioButton_CheckedChanged(object sender, EventArgs e)
+                    {
+                        if (radioButtonWorkbook.Checked)
+                        {
+                            // Change the display reference to a workbook.
+                            workbookView.DisplayReference = "Book2";
+                            workbookView.DisplayReferenceName = null;
+                        }
+                        else if (radioButtonWorksheet.Checked)
+                        {
+                            // Change the display reference to a worksheet and name it.
+                            workbookView.DisplayReference = "[Book1]Sheet1!A:IV";
+                            workbookView.DisplayReferenceName = "\"My Worksheet\"";
+                        }
+                        else if (radioButtonRange.Checked)
+                        {
+                            // Change the display reference to a range and name it.
+                            workbookView.DisplayReference = "[Book3]Sheet2!A1:C3";
+                            workbookView.DisplayReferenceName = "\"My Range\"";
+                        }
+                        else if (radioButtonDefinedName.Checked)
+                        {
+                            // Change the display reference to a defined name and name it.
+                            workbookView.DisplayReference = "Book2!MyName";
+                            workbookView.DisplayReferenceName = "\"My Defined Name\"";
+                        }
+                        else if (radioButtonMultipleRanges.Checked)
+                        {
+                            // Change the display reference to multiple ranges and name them.
+                            workbookView.DisplayReference = "[Book1]Sheet1!A1:C3,[Book1]Sheet1!4:6,[Book1]Sheet1!D:F";
+                            workbookView.DisplayReferenceName = "\"My Range1\",\"My Range2\",\"My Range3\"";
+                        }
+                    }
+                </code>
+      </example>
+    </member>
+    <member name="P:SpreadsheetGear.Windows.Forms.WorkbookView.DisplayReferenceName">
+      <summary>
+        <para>Gets or sets the property which specifies the text to display on each of the
+                "sheet tabs" of the workbook view.</para>
+      </summary>
+      <remarks>
+        <para>
+                    Use the <see cref="P:SpreadsheetGear.Windows.Forms.WorkbookView.DisplayReferenceName" /> property in conjunction with
+                    the <see cref="P:SpreadsheetGear.Windows.Forms.WorkbookView.DisplayReference" /> property to specify the text to display
+                    on the "sheet tabs" of the workbook view control.
+                </para>
+        <para>The names are specified as a comma separated list of formulas which return
+                the text to display. Some valid examples include:</para>
+        <list type="bullet">
+          <item>"\"MySheet1\", \"MySheet2\"" displays "MySheet1" on the first sheet tab
+                    and "MySheet2" on the second sheet tab.</item>
+          <item>"[Book1]Sheet1!A1" displays the text in the cell A1 on the first sheet
+                    tab.</item>
+        </list>
+      </remarks>
+      <seealso cref="P:SpreadsheetGear.Windows.Forms.WorkbookView.DisplayReference" />
+      <example>
+        <code lang="CS">
+            /*
+                     * Demonstrate DisplayReference and DisplayReferenceName usage.
+                     */
+                    private void radioButton_CheckedChanged(object sender, EventArgs e)
+                    {
+                        if (radioButtonWorkbook.Checked)
+                        {
+                            // Change the display reference to a workbook.
+                            workbookView.DisplayReference = "Book2";
+                            workbookView.DisplayReferenceName = null;
+                        }
+                        else if (radioButtonWorksheet.Checked)
+                        {
+                            // Change the display reference to a worksheet and name it.
+                            workbookView.DisplayReference = "[Book1]Sheet1!A:IV";
+                            workbookView.DisplayReferenceName = "\"My Worksheet\"";
+                        }
+                        else if (radioButtonRange.Checked)
+                        {
+                            // Change the display reference to a range and name it.
+                            workbookView.DisplayReference = "[Book3]Sheet2!A1:C3";
+                            workbookView.DisplayReferenceName = "\"My Range\"";
+                        }
+                        else if (radioButtonDefinedName.Checked)
+                        {
+                            // Change the display reference to a defined name and name it.
+                            workbookView.DisplayReference = "Book2!MyName";
+                            workbookView.DisplayReferenceName = "\"My Defined Name\"";
+                        }
+                        else if (radioButtonMultipleRanges.Checked)
+                        {
+                            // Change the display reference to multiple ranges and name them.
+                            workbookView.DisplayReference = "[Book1]Sheet1!A1:C3,[Book1]Sheet1!4:6,[Book1]Sheet1!D:F";
+                            workbookView.DisplayReferenceName = "\"My Range1\",\"My Range2\",\"My Range3\"";
+                        }
+                    }
+                </code>
+      </example>
+    </member>
+    <member name="P:SpreadsheetGear.Windows.Forms.WorkbookView.FormulaBar">
+      <summary>
+                Gets or sets the <see cref="P:SpreadsheetGear.Windows.Forms.WorkbookView.FormulaBar">formula bar</see>
+                associated with this workbook view.
+            </summary>
+      <remarks>
+        <para>
+                    The formula bar will automatically connect to the active WorkbookView 
+                    control contained within the same container.  Use this property to set
+                    a direct link to any formula bar.
+                </para>
+      </remarks>
+    </member>
+    <member name="P:SpreadsheetGear.Windows.Forms.WorkbookView.HollowSelection">
+      <summary>
+            Gets or sets the property which determines whether selections are painted with a
+            hollow interior. If this property is set to <strong>true</strong> then only the border
+            of the selected range will be painted.
+            </summary>
+    </member>
+    <member name="M:SpreadsheetGear.Windows.Forms.WorkbookView.Print(System.Boolean)">
+      <summary>
+            Prints the active sheet.
+            </summary>
+      <param name="showPrintDialog">Specifies whether the print dialog should be displayed before printing.</param>
+      <seealso cref="M:SpreadsheetGear.Windows.Forms.WorkbookView.Print(SpreadsheetGear.Printing.PrintWhat,System.Boolean)" />
+      <seealso cref="M:SpreadsheetGear.Windows.Forms.WorkbookView.PrintPreview" />
+      <seealso cref="M:SpreadsheetGear.Windows.Forms.WorkbookView.PrintPreview(SpreadsheetGear.Printing.PrintWhat)" />
+      <seealso cref="P:SpreadsheetGear.Windows.Forms.WorkbookView.ActiveSheet" />
+      <seealso cref="P:SpreadsheetGear.IWorksheet.PageSetup" />
+    </member>
+    <member name="M:SpreadsheetGear.Windows.Forms.WorkbookView.Print(SpreadsheetGear.Printing.PrintWhat,System.Boolean)">
+      <summary>
+            Prints according to the specified options.
+            </summary>
+      <param name="printWhat">Specifies what to print.</param>
+      <param name="showPrintDialog">Specifies whether the print dialog should be displayed before printing.</param>
+      <seealso cref="M:SpreadsheetGear.Windows.Forms.WorkbookView.Print(System.Boolean)" />
+      <seealso cref="M:SpreadsheetGear.Windows.Forms.WorkbookView.PrintPreview" />
+      <seealso cref="M:SpreadsheetGear.Windows.Forms.WorkbookView.PrintPreview(SpreadsheetGear.Printing.PrintWhat)" />
+      <seealso cref="P:SpreadsheetGear.Windows.Forms.WorkbookView.ActiveSheet" />
+      <seealso cref="P:SpreadsheetGear.IWorksheet.PageSetup" />
+    </member>
+    <member name="M:SpreadsheetGear.Windows.Forms.WorkbookView.PrintPreview">
+      <summary>
+            Shows a print preview of the active sheet.
+            </summary>
+      <seealso cref="M:SpreadsheetGear.Windows.Forms.WorkbookView.Print(System.Boolean)" />
+      <seealso cref="M:SpreadsheetGear.Windows.Forms.WorkbookView.Print(SpreadsheetGear.Printing.PrintWhat,System.Boolean)" />
+      <seealso cref="M:SpreadsheetGear.Windows.Forms.WorkbookView.PrintPreview(SpreadsheetGear.Printing.PrintWhat)" />
+      <seealso cref="P:SpreadsheetGear.Windows.Forms.WorkbookView.ActiveSheet" />
+      <seealso cref="P:SpreadsheetGear.IWorksheet.PageSetup" />
+    </member>
+    <member name="M:SpreadsheetGear.Windows.Forms.WorkbookView.PrintPreview(SpreadsheetGear.Printing.PrintWhat)">
+      <summary>
+            Shows a print preview according to the specified options.
+            </summary>
+      <param name="printWhat">Specifies what to print.</param>
+      <seealso cref="M:SpreadsheetGear.Windows.Forms.WorkbookView.Print(System.Boolean)" />
+      <seealso cref="M:SpreadsheetGear.Windows.Forms.WorkbookView.Print(SpreadsheetGear.Printing.PrintWhat,System.Boolean)" />
+      <seealso cref="M:SpreadsheetGear.Windows.Forms.WorkbookView.PrintPreview" />
+      <seealso cref="P:SpreadsheetGear.Windows.Forms.WorkbookView.ActiveSheet" />
+      <seealso cref="P:SpreadsheetGear.IWorksheet.PageSetup" />
+    </member>
+    <member name="M:SpreadsheetGear.Windows.Forms.WorkbookView.GetLock">
+      <summary>
+                Interrupts background calculation if necessary and acquires an exclusive lock on
+                the <see cref="T:SpreadsheetGear.IWorkbookSet">workbook set</see> associated with
+                this <see cref="T:SpreadsheetGear.Windows.Forms.WorkbookView" />.
+            </summary>
+      <remarks>
+        <para>
+                    The <see cref="T:SpreadsheetGear.Windows.Forms.WorkbookView" /> control adheres to the standard Windows
+                    Forms threading model. Calls to this method must be made from the thread which
+                    created the <strong>WorkbookView</strong>.
+                </para>
+        <para>
+                    See <see cref="M:SpreadsheetGear.IWorkbookSet.GetLock" /> for more
+                    information.
+                </para>
+      </remarks>
+    </member>
+    <member name="M:SpreadsheetGear.Windows.Forms.WorkbookView.ReleaseLock">
+      <remarks>
+        <para>
+                    The <see cref="T:SpreadsheetGear.Windows.Forms.WorkbookView" /> control adheres to the standard Windows
+                    Forms threading model. Calls to this method must be made from the thread which
+                    created the <strong>WorkbookView</strong>.
+                </para>
+        <para>
+                    See <see cref="M:SpreadsheetGear.IWorkbookSet.ReleaseLock" /> for more
+                    information.
+                </para>
+      </remarks>
+      <summary>
+                Releases a lock acquired with <see cref="M:SpreadsheetGear.Windows.Forms.WorkbookView.GetLock" /> and starts background
+                calculation if appropriate.
+            </summary>
+    </member>
+    <member name="M:SpreadsheetGear.Windows.Forms.WorkbookView.WithLock(System.Action)">
+      <summary>
+            Acquires a lock with <see cref="M:SpreadsheetGear.Windows.Forms.WorkbookView.GetLock" />, calls the specified delegate and then calls <see cref="M:SpreadsheetGear.Windows.Forms.WorkbookView.ReleaseLock" />.
+            </summary>
+      <remarks>
+        <para>
+            	This method is equivalent to:
+            	<code lang="CS">
+                // Acquire a workbook set lock.
+                workbookView.GetLock();
+                try
+                {
+                    // Call the specified action.
+                    action();
+                }
+                finally
+                {
+                    // Release the workbook set lock.
+                    workbookView.ReleaseLock();
+                }
+                </code></para>
+        <para>
+                    See <see cref="M:SpreadsheetGear.IWorkbookSet.RewindLock(System.Int32)" /> for more
+                    information.
+                </para>
+      </remarks>
+      <param name="action">Specifies the method to call after acquiring the lock.</param>
+      <seealso cref="M:SpreadsheetGear.Windows.Forms.WorkbookView.WithLock``1(System.Func{``0})" />
+      <seealso cref="M:SpreadsheetGear.Windows.Forms.WorkbookView.GetLock" />
+      <seealso cref="M:SpreadsheetGear.Windows.Forms.WorkbookView.ReleaseLock" />
+    </member>
+    <member name="M:SpreadsheetGear.Windows.Forms.WorkbookView.WithLock``1(System.Func{``0})">
+      <summary>
+            Calls GetLock(), runs the specified Func, calls ReleaseLock() and then returns the value returned by the Func.
+            </summary>
+      <typeparam name="TResult">The type of the result returned by 'func'.</typeparam>
+      <param name="func">The function to run.</param>
+      <returns>The value returned by 'func'.</returns>
+      <seealso cref="M:SpreadsheetGear.Windows.Forms.WorkbookView.WithLock(System.Action)" />
+      <seealso cref="M:SpreadsheetGear.Windows.Forms.WorkbookView.GetLock" />
+      <seealso cref="M:SpreadsheetGear.Windows.Forms.WorkbookView.ReleaseLock" />
+    </member>
+    <member name="M:SpreadsheetGear.Windows.Forms.WorkbookView.RewindLock(System.Int32)">
+      <summary>
+                Interrupts background calculation if necessary and restores locks to the state they
+                were in before <see cref="M:SpreadsheetGear.Windows.Forms.WorkbookView.UnwindLock" /> was called.
+            </summary>
+      <remarks>
+        <para>
+                    The <see cref="T:SpreadsheetGear.Windows.Forms.WorkbookView" /> control adheres to the standard Windows
+                    Forms threading model. Calls to this method must be made from the thread which
+                    created the <strong>WorkbookView</strong>.
+                </para>
+        <para>
+                    See <see cref="M:SpreadsheetGear.IWorkbookSet.RewindLock(System.Int32)" /> for more
+                    information.
+                </para>
+      </remarks>
+      <param name="rewindCount">The rewind count acquired from <see cref="M:SpreadsheetGear.Windows.Forms.WorkbookView.UnwindLock" />.</param>
+    </member>
+    <member name="M:SpreadsheetGear.Windows.Forms.WorkbookView.UnwindLock">
+      <summary>
+                Unwinds the locks for the <see cref="T:SpreadsheetGear.IWorkbookSet">workbook
+                set</see> associated with this workbook view.
+            </summary>
+      <returns>The rewind count which must be passed to <see cref="M:SpreadsheetGear.Windows.Forms.WorkbookView.RewindLock(System.Int32)" />.</returns>
+      <remarks>
+        <para>
+                    The <see cref="T:SpreadsheetGear.Windows.Forms.WorkbookView" /> control adheres to the standard Windows
+                    Forms threading model. Calls to this method must be made from the thread which
+                    created the <strong>WorkbookView</strong>.
+                </para>
+        <para>
+                    See <see cref="M:SpreadsheetGear.IWorkbookSet.UnwindLock" /> for more
+                    information.
+                </para>
+      </remarks>
+    </member>
+    <member name="E:SpreadsheetGear.Windows.Forms.WorkbookView.ActiveTabChanged">
+      <summary>Occurs after the active tab changes.</summary>
+      <remarks>
+        <para>
+                    The <see cref="E:SpreadsheetGear.Windows.Forms.WorkbookView.ActiveTabChanged" /> event is always invoked on the
+                    thread which created the workbook view control, and a
+                    <see cref="M:SpreadsheetGear.IWorkbookSet.GetLock">lock</see> is always acquired
+                    on the <see cref="T:SpreadsheetGear.IWorkbookSet">workbook set</see> associated
+                    with the workbook view control before <see cref="E:SpreadsheetGear.Windows.Forms.WorkbookView.ActiveTabChanged" />
+                    is invoked.
+                </para>
+      </remarks>
+    </member>
+    <member name="E:SpreadsheetGear.Windows.Forms.WorkbookView.ActiveTabChanging">
+      <summary>
+            Occurs when the user is attempting to change the active tab and provides the
+            ability to cancel the change.
+            </summary>
+      <remarks>
+        <para>
+                    The <see cref="E:SpreadsheetGear.Windows.Forms.WorkbookView.ActiveTabChanging" /> event is always invoked on the
+                    thread which created the workbook view control, and a
+                    <see cref="M:SpreadsheetGear.IWorkbookSet.GetLock">lock</see> is always acquired
+                    on the <see cref="T:SpreadsheetGear.IWorkbookSet">workbook set</see> associated
+                    with the workbook view control before <see cref="E:SpreadsheetGear.Windows.Forms.WorkbookView.ActiveTabChanging" />
+                    is invoked.
+                </para>
+      </remarks>
+    </member>
+    <member name="E:SpreadsheetGear.Windows.Forms.WorkbookView.Calculate">
+      <summary>
+                Occurs sometime after calculation of the
+                <see cref="T:SpreadsheetGear.IWorkbookSet">workbook set</see> associated with the
+                workbook view control has completed.
+            </summary>
+      <remarks>
+        <para>
+                    The <see cref="E:SpreadsheetGear.Windows.Forms.WorkbookView.Calculate" /> event occurs sometime after calculation of the
+                    <see cref="T:SpreadsheetGear.IWorkbookSet">workbook set</see> associated with the
+                    workbook view control has completed.
+                </para>
+        <para>
+                    The <see cref="E:SpreadsheetGear.Windows.Forms.WorkbookView.Calculate" /> event is always invoked on the thread which
+                    created the workbook view control, and a
+                    <see cref="M:SpreadsheetGear.IWorkbookSet.GetLock">lock</see> is always acquired
+                    on the <see cref="T:SpreadsheetGear.IWorkbookSet">workbook set</see> associated
+                    with the workbook view control before <see cref="E:SpreadsheetGear.Windows.Forms.WorkbookView.Calculate" /> is invoked.
+                </para>
+      </remarks>
+    </member>
+    <member name="E:SpreadsheetGear.Windows.Forms.WorkbookView.CellBeginEdit">
+      <summary>Occurs when edit mode is being initiated.</summary>
+      <remarks>
+        <para>
+                    The <see cref="E:SpreadsheetGear.Windows.Forms.WorkbookView.CellBeginEdit" /> event occurs when edit mode is being
+                    initiated, and provides the event handler with the ability to modify the text
+                    to be edited or cancel edit mode.
+                </para>
+        <para>
+                    The <see cref="E:SpreadsheetGear.Windows.Forms.WorkbookView.CellBeginEdit" /> event is always invoked on the thread
+                    which created the workbook view control, and a
+                    <see cref="M:SpreadsheetGear.IWorkbookSet.GetLock">lock</see> is always acquired
+                    on the <see cref="T:SpreadsheetGear.IWorkbookSet">workbook set</see> associated
+                    with the workbook view control before <see cref="E:SpreadsheetGear.Windows.Forms.WorkbookView.CellBeginEdit" /> is
+                    invoked.
+                </para>
+      </remarks>
+      <example>
+        <code lang="CS">
+            /*
+              * Sets the initial entry text to "Jim" when entry mode is initiated for cell B1.
+              * 
+              * Cancels entry mode for any cell other than B1.
+              */
+             private void workbookView_CellBeginEdit(object sender, CellBeginEditEventArgs e)
+             {
+                 // Acquire a workbook set lock.
+                 workbookView.GetLock();
+                 try
+                 {
+                     // Get a reference to the active worksheet's cells.
+                     SpreadsheetGear.IRange cells = WorkbookView.ActiveWorksheet.Cells;
+             
+                     // Check if the correct cell is selected.
+                     if (workbookView.RangeSelection.Equals(cells["B1"]))
+                         // Change the entry text to "Jim".
+                         e.Entry = "Jim";
+                     else
+                         // Cancel CellBeginEdit.
+                         e.Cancel = true;
+                 }
+                 finally
+                 {
+                     // Release the workbook set lock.
+                     workbookView.ReleaseLock();
+                 }
+             }
+                </code>
+      </example>
+    </member>
+    <member name="E:SpreadsheetGear.Windows.Forms.WorkbookView.CellCancelEdit">
+      <summary>
+            Occurs when edit mode is being canceled and provides the ability to force edit
+            mode to continue by cancelling the event.
+            </summary>
+      <remarks>
+        <para>
+                    The <see cref="E:SpreadsheetGear.Windows.Forms.WorkbookView.CellCancelEdit" /> event occurs when edit mode is being
+                    canceled, and provides the event handler with the ability to force edit mode to
+                    continue.
+                </para>
+        <para>
+                    The <see cref="E:SpreadsheetGear.Windows.Forms.WorkbookView.CellCancelEdit" /> event is always invoked on the thread
+                    which created the workbook view control, and a
+                    <see cref="M:SpreadsheetGear.IWorkbookSet.GetLock">lock</see> is always acquired
+                    on the <see cref="T:SpreadsheetGear.IWorkbookSet">workbook set</see> associated
+                    with the workbook view control before <see cref="E:SpreadsheetGear.Windows.Forms.WorkbookView.CellCancelEdit" /> is
+                    invoked.
+                </para>
+      </remarks>
+    </member>
+    <member name="E:SpreadsheetGear.Windows.Forms.WorkbookView.CellEndEdit">
+      <summary>
+            Occurs when edit mode is ending and provides the ability to force edit mode to
+            continue by cancelling the event.
+            </summary>
+      <remarks>
+        <para>
+                    The <see cref="E:SpreadsheetGear.Windows.Forms.WorkbookView.CellEndEdit" /> event occurs when edit mode is being ended,
+                    and provides the event handler with the ability to modify the text to be placed
+                    into the <see cref="P:SpreadsheetGear.Windows.Forms.WorkbookView.ActiveCell" />, or force edit mode to continue.
+                </para>
+        <para>
+                    The <see cref="E:SpreadsheetGear.Windows.Forms.WorkbookView.CellEndEdit" /> event is always invoked on the thread which
+                    created the workbook view control, and a
+                    <see cref="M:SpreadsheetGear.IWorkbookSet.GetLock">lock</see> is always acquired
+                    on the <see cref="T:SpreadsheetGear.IWorkbookSet">workbook set</see> associated
+                    with the workbook view control before <see cref="E:SpreadsheetGear.Windows.Forms.WorkbookView.CellEndEdit" /> is
+                    invoked.
+                </para>
+      </remarks>
+      <example>
+        <code lang="CS">
+            /*
+                     * Demonstrate the CellEndEdit event by validating that the 
+                     * user entered a valid integer &gt; 0.
+                     */
+                    private void workbookView_CellEndEdit(object sender, CellEndEditEventArgs e)
+                    {
+                        // Acquire a lock on the workbook set.
+                        workbookView.GetLock();
+                        try
+                        {
+                            // Get a reference to the active worksheet's cells.
+                            SpreadsheetGear.IRange cells = (await LockedWorkbookView.GetActiveWorksheetAsync()).Cells;
+             
+                            // Check if the correct cell is selected.
+                            if (workbookView.RangeSelection.Equals(cells["B1"]))
+                            {
+                                // Try to convert the entry to an integer.
+                                int result;
+                                bool validInt = Int32.TryParse(e.Entry, out result);
+             
+                                // Check if the entry is valid.
+                                if (!validInt || result &lt;= 0)
+                                {
+                                    // Show a message and cancel CellEndEdit.
+                                    MessageBox.Show("The entry must be an integer greater than 0.", 
+                                        "Entry Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                                    e.Cancel = true;
+                                }
+                            }
+                        }
+                        finally
+                        {
+                            // Release the lock on the workbook set.
+                            workbookView.ReleaseLock();
+                        }
+                    }
+                </code>
+      </example>
+    </member>
+    <member name="E:SpreadsheetGear.Windows.Forms.WorkbookView.RangeChanged">
+      <summary>
+                Occurs sometime after an <see cref="T:SpreadsheetGear.IRange" /> property setter
+                or method changes one or more of the cells in the range.
+            </summary>
+      <remarks>
+        <para>It is important to note that some actions, such as insert or delete, will
+                change cells outside of the range, and possibly even modify formulas in other
+                worksheets or workbooks.</para>
+        <para>
+                    The <see cref="E:SpreadsheetGear.Windows.Forms.WorkbookView.RangeChanged" /> event is always invoked on the thread which
+                    created the workbook view control, and a
+                    <see cref="M:SpreadsheetGear.IWorkbookSet.GetLock">lock</see> is always acquired
+                    on the <see cref="T:SpreadsheetGear.IWorkbookSet">workbook set</see> associated
+                    with the workbook view control before <see cref="E:SpreadsheetGear.Windows.Forms.WorkbookView.RangeChanged" /> is
+                    invoked.
+                </para>
+      </remarks>
+    </member>
+    <member name="E:SpreadsheetGear.Windows.Forms.WorkbookView.RangeSelectionChanged">
+      <summary>Occurs after the range selection changes.</summary>
+      <remarks>
+        <para>
+                    This event also occurs when the active tab is changed.
+                </para>
+        <para>
+                    The <see cref="E:SpreadsheetGear.Windows.Forms.WorkbookView.RangeSelectionChanged" /> event is always invoked on the
+                    thread which created the workbook view control, and a
+                    <see cref="M:SpreadsheetGear.IWorkbookSet.GetLock">lock</see> is always acquired
+                    on the <see cref="T:SpreadsheetGear.IWorkbookSet">workbook set</see> associated
+                    with the workbook view control before <see cref="E:SpreadsheetGear.Windows.Forms.WorkbookView.RangeSelectionChanged" />
+                    is invoked.
+                </para>
+      </remarks>
+    </member>
+    <member name="E:SpreadsheetGear.Windows.Forms.WorkbookView.RangeSelectionChanging">
+      <summary>
+            Occurs when the user is attempting to change the range selection and provides the
+            ability to cancel the change.
+            </summary>
+      <remarks>
+        <para>
+                    This event does not occur when the active tab is about to change.
+                </para>
+        <para>
+                    The <see cref="E:SpreadsheetGear.Windows.Forms.WorkbookView.RangeSelectionChanging" /> event is always invoked on the
+                    thread which created the workbook view control, and a
+                    <see cref="M:SpreadsheetGear.IWorkbookSet.GetLock">lock</see> is always acquired
+                    on the <see cref="T:SpreadsheetGear.IWorkbookSet">workbook set</see> associated
+                    with the workbook view control before <see cref="E:SpreadsheetGear.Windows.Forms.WorkbookView.RangeSelectionChanging" />
+                    is invoked.
+                </para>
+      </remarks>
+    </member>
+    <member name="E:SpreadsheetGear.Windows.Forms.WorkbookView.ScrollPositionChanged">
+      <summary>
+            Occurs when the scroll position changes.
+            </summary>
+      <remarks>
+        <para>
+                    The <see cref="E:SpreadsheetGear.Windows.Forms.WorkbookView.ScrollPositionChanged" /> event is always invoked on the
+                    thread which created the workbook view control, and a
+                    <see cref="M:SpreadsheetGear.IWorkbookSet.GetLock">lock</see> is always acquired
+                    on the <see cref="T:SpreadsheetGear.IWorkbookSet">workbook set</see> associated
+                    with the workbook view control before <see cref="E:SpreadsheetGear.Windows.Forms.WorkbookView.ScrollPositionChanged" />
+                    is invoked.
+                </para>
+      </remarks>
+    </member>
+    <member name="E:SpreadsheetGear.Windows.Forms.WorkbookView.ShapeAction">
+      <summary>
+            Occurs when a shape action happens.
+            </summary>
+      <remarks>
+        <para>
+                    The <see cref="E:SpreadsheetGear.Windows.Forms.WorkbookView.ShapeAction" /> event is always invoked on the
+                    thread which created the workbook view control, and a
+                    <see cref="M:SpreadsheetGear.IWorkbookSet.GetLock">lock</see> is always acquired
+                    on the <see cref="T:SpreadsheetGear.IWorkbookSet">workbook set</see> associated
+                    with the workbook view control before <see cref="E:SpreadsheetGear.Windows.Forms.WorkbookView.ShapeAction" />
+                    is invoked.
+                </para>
+      </remarks>
+    </member>
+    <member name="E:SpreadsheetGear.Windows.Forms.WorkbookView.ShapeSelectionChanged">
+      <summary>Occurs after the shape selection changes.</summary>
+      <remarks>
+        <para>
+                    The <see cref="E:SpreadsheetGear.Windows.Forms.WorkbookView.ShapeSelectionChanged" /> event is always invoked on the
+                    thread which created the workbook view control, and a
+                    <see cref="M:SpreadsheetGear.IWorkbookSet.GetLock">lock</see> is always acquired
+                    on the <see cref="T:SpreadsheetGear.IWorkbookSet">workbook set</see> associated
+                    with the workbook view control before <see cref="E:SpreadsheetGear.Windows.Forms.WorkbookView.ShapeSelectionChanged" />
+                    is invoked.
+                </para>
+      </remarks>
+    </member>
+    <member name="E:SpreadsheetGear.Windows.Forms.WorkbookView.ShapeSelectionChanging">
+      <summary>
+            Occurs when the user is attempting to change the shape selection and provides the
+            ability to cancel the change.
+            </summary>
+      <remarks>
+        <para>
+                    The <see cref="E:SpreadsheetGear.Windows.Forms.WorkbookView.ShapeSelectionChanging" /> event is always invoked on the
+                    thread which created the workbook view control, and a
+                    <see cref="M:SpreadsheetGear.IWorkbookSet.GetLock">lock</see> is always acquired
+                    on the <see cref="T:SpreadsheetGear.IWorkbookSet">workbook set</see> associated
+                    with the workbook view control before <see cref="E:SpreadsheetGear.Windows.Forms.WorkbookView.ShapeSelectionChanging" />
+                    is invoked.
+                </para>
+      </remarks>
+    </member>
+    <member name="E:SpreadsheetGear.Windows.Forms.WorkbookView.ShowError">
+      <summary>
+            This event is sent to the active WorkbookView just before an error message is to
+            be displayed to the user.
+            </summary>
+      <remarks>
+        <para>
+                    The <see cref="E:SpreadsheetGear.Windows.Forms.WorkbookView.ShowError" /> event is sent to the active WorkbookView just
+                    before an error message is to be displayed to the user, and provides the event
+                    handler with the ability to modify the error message text and caption or handle
+                    the event.
+                </para>
+        <para>
+                    The <see cref="E:SpreadsheetGear.Windows.Forms.WorkbookView.ShowError" /> event is always invoked on the thread which
+                    created the workbook view control, and a
+                    <see cref="M:SpreadsheetGear.IWorkbookSet.GetLock">lock</see> is always acquired
+                    on the <see cref="T:SpreadsheetGear.IWorkbookSet">workbook set</see> associated
+                    with the workbook view control before <see cref="E:SpreadsheetGear.Windows.Forms.WorkbookView.ShowError" /> is invoked.
+                </para>
+      </remarks>
+    </member>
+    <member name="M:SpreadsheetGear.Windows.Forms.WorkbookView.OnActiveTabChanged(SpreadsheetGear.Windows.Forms.ActiveTabChangedEventArgs)">
+      <summary>
+            Raises the <see cref="E:SpreadsheetGear.Windows.Forms.WorkbookView.ActiveTabChanged" /> event.
+            </summary>
+      <param name="e">An instance of <see cref="T:SpreadsheetGear.Windows.Forms.ActiveTabChangedEventArgs" /> which contains the event data.</param>
+      <seealso cref="M:SpreadsheetGear.Windows.Forms.WorkbookView.OnActiveTabChanging(SpreadsheetGear.Windows.Forms.ActiveTabChangingEventArgs)" />
+      <seealso cref="T:SpreadsheetGear.Windows.Forms.ActiveTabChangedEventArgs" />
+      <seealso cref="E:SpreadsheetGear.Windows.Forms.WorkbookView.ActiveTabChanged" />
+    </member>
+    <member name="M:SpreadsheetGear.Windows.Forms.WorkbookView.OnActiveTabChanging(SpreadsheetGear.Windows.Forms.ActiveTabChangingEventArgs)">
+      <summary>
+            Raises the <see cref="E:SpreadsheetGear.Windows.Forms.WorkbookView.ActiveTabChanging" /> event.
+            </summary>
+      <param name="e">An instance of <see cref="T:SpreadsheetGear.Windows.Forms.ActiveTabChangingEventArgs" /> which contains the event data.</param>
+      <seealso cref="M:SpreadsheetGear.Windows.Forms.WorkbookView.OnActiveTabChanged(SpreadsheetGear.Windows.Forms.ActiveTabChangedEventArgs)" />
+      <seealso cref="T:SpreadsheetGear.Windows.Forms.ActiveTabChangingEventArgs" />
+      <seealso cref="E:SpreadsheetGear.Windows.Forms.WorkbookView.ActiveTabChanging" />
+    </member>
+    <member name="M:SpreadsheetGear.Windows.Forms.WorkbookView.OnCalculate(SpreadsheetGear.Windows.Forms.CalculateEventArgs)">
+      <summary>
+            Raises the <see cref="E:SpreadsheetGear.Windows.Forms.WorkbookView.Calculate" /> event.
+            </summary>
+      <param name="e">An instance of <see cref="T:SpreadsheetGear.Windows.Forms.CalculateEventArgs" /> which contains the event data.</param>
+      <seealso cref="T:SpreadsheetGear.Windows.Forms.CalculateEventArgs" />
+      <seealso cref="E:SpreadsheetGear.Windows.Forms.WorkbookView.Calculate" />
+    </member>
+    <member name="M:SpreadsheetGear.Windows.Forms.WorkbookView.OnCellBeginEdit(SpreadsheetGear.Windows.Forms.CellBeginEditEventArgs)">
+      <summary>
+            Raises the <see cref="E:SpreadsheetGear.Windows.Forms.WorkbookView.CellBeginEdit" /> event.
+            </summary>
+      <param name="e">An instance of <see cref="T:SpreadsheetGear.Windows.Forms.CellBeginEditEventArgs" /> which contains the event data.</param>
+      <seealso cref="M:SpreadsheetGear.Windows.Forms.WorkbookView.OnCellEndEdit(SpreadsheetGear.Windows.Forms.CellEndEditEventArgs)" />
+      <seealso cref="M:SpreadsheetGear.Windows.Forms.WorkbookView.OnCellCancelEdit(SpreadsheetGear.Windows.Forms.CellCancelEditEventArgs)" />
+      <seealso cref="T:SpreadsheetGear.Windows.Forms.CellBeginEditEventArgs" />
+      <seealso cref="E:SpreadsheetGear.Windows.Forms.WorkbookView.CellBeginEdit" />
+    </member>
+    <member name="M:SpreadsheetGear.Windows.Forms.WorkbookView.OnCellCancelEdit(SpreadsheetGear.Windows.Forms.CellCancelEditEventArgs)">
+      <summary>
+            Raises the <see cref="E:SpreadsheetGear.Windows.Forms.WorkbookView.CellCancelEdit" /> event.
+            </summary>
+      <param name="e">An instance of <see cref="T:SpreadsheetGear.Windows.Forms.CellCancelEditEventArgs" /> which contains the event data.</param>
+      <seealso cref="M:SpreadsheetGear.Windows.Forms.WorkbookView.OnCellBeginEdit(SpreadsheetGear.Windows.Forms.CellBeginEditEventArgs)" />
+      <seealso cref="M:SpreadsheetGear.Windows.Forms.WorkbookView.OnCellEndEdit(SpreadsheetGear.Windows.Forms.CellEndEditEventArgs)" />
+      <seealso cref="T:SpreadsheetGear.Windows.Forms.CellCancelEditEventArgs" />
+      <seealso cref="E:SpreadsheetGear.Windows.Forms.WorkbookView.CellCancelEdit" />
+    </member>
+    <member name="M:SpreadsheetGear.Windows.Forms.WorkbookView.OnCellEndEdit(SpreadsheetGear.Windows.Forms.CellEndEditEventArgs)">
+      <summary>
+            Raises the <see cref="E:SpreadsheetGear.Windows.Forms.WorkbookView.CellEndEdit" /> event.
+            </summary>
+      <param name="e">An instance of <see cref="T:SpreadsheetGear.Windows.Forms.CellEndEditEventArgs" /> which contains the event data.</param>
+      <seealso cref="M:SpreadsheetGear.Windows.Forms.WorkbookView.OnCellBeginEdit(SpreadsheetGear.Windows.Forms.CellBeginEditEventArgs)" />
+      <seealso cref="M:SpreadsheetGear.Windows.Forms.WorkbookView.OnCellCancelEdit(SpreadsheetGear.Windows.Forms.CellCancelEditEventArgs)" />
+      <seealso cref="T:SpreadsheetGear.Windows.Forms.CellEndEditEventArgs" />
+      <seealso cref="E:SpreadsheetGear.Windows.Forms.WorkbookView.CellEndEdit" />
+    </member>
+    <member name="M:SpreadsheetGear.Windows.Forms.WorkbookView.OnRangeChanged(SpreadsheetGear.Windows.Forms.RangeChangedEventArgs)">
+      <summary>
+            Raises the <see cref="E:SpreadsheetGear.Windows.Forms.WorkbookView.RangeChanged" /> event.
+            </summary>
+      <param name="e">An instance of <see cref="T:SpreadsheetGear.Windows.Forms.RangeChangedEventArgs" /> which contains the event data.</param>
+      <seealso cref="M:SpreadsheetGear.Windows.Forms.WorkbookView.OnRangeSelectionChanged(SpreadsheetGear.Windows.Forms.RangeSelectionChangedEventArgs)" />
+      <seealso cref="T:SpreadsheetGear.Windows.Forms.RangeChangedEventArgs" />
+      <seealso cref="E:SpreadsheetGear.Windows.Forms.WorkbookView.RangeChanged" />
+    </member>
+    <member name="M:SpreadsheetGear.Windows.Forms.WorkbookView.OnRangeSelectionChanged(SpreadsheetGear.Windows.Forms.RangeSelectionChangedEventArgs)">
+      <summary>
+            Raises the <see cref="E:SpreadsheetGear.Windows.Forms.WorkbookView.RangeSelectionChanged" /> event.
+            </summary>
+      <param name="e">An instance of <see cref="T:SpreadsheetGear.Windows.Forms.RangeSelectionChangedEventArgs" /> which contains the event data.</param>
+      <seealso cref="M:SpreadsheetGear.Windows.Forms.WorkbookView.OnRangeChanged(SpreadsheetGear.Windows.Forms.RangeChangedEventArgs)" />
+      <seealso cref="M:SpreadsheetGear.Windows.Forms.WorkbookView.OnRangeSelectionChanging(SpreadsheetGear.Windows.Forms.RangeSelectionChangingEventArgs)" />
+      <seealso cref="T:SpreadsheetGear.Windows.Forms.RangeSelectionChangedEventArgs" />
+      <seealso cref="E:SpreadsheetGear.Windows.Forms.WorkbookView.RangeSelectionChanged" />
+    </member>
+    <member name="M:SpreadsheetGear.Windows.Forms.WorkbookView.OnRangeSelectionChanging(SpreadsheetGear.Windows.Forms.RangeSelectionChangingEventArgs)">
+      <summary>
+            Raises the <see cref="E:SpreadsheetGear.Windows.Forms.WorkbookView.RangeSelectionChanging" /> event.
+            </summary>
+      <param name="e">An instance of <see cref="T:SpreadsheetGear.Windows.Forms.RangeSelectionChangingEventArgs" /> which contains the event data.</param>
+      <seealso cref="M:SpreadsheetGear.Windows.Forms.WorkbookView.OnRangeChanged(SpreadsheetGear.Windows.Forms.RangeChangedEventArgs)" />
+      <seealso cref="M:SpreadsheetGear.Windows.Forms.WorkbookView.OnRangeSelectionChanged(SpreadsheetGear.Windows.Forms.RangeSelectionChangedEventArgs)" />
+      <seealso cref="T:SpreadsheetGear.Windows.Forms.RangeSelectionChangingEventArgs" />
+      <seealso cref="E:SpreadsheetGear.Windows.Forms.WorkbookView.RangeSelectionChanging" />
+    </member>
+    <member name="M:SpreadsheetGear.Windows.Forms.WorkbookView.OnScrollPositionChanged(SpreadsheetGear.Windows.Forms.ScrollPositionChangedEventArgs)">
+      <summary>
+            Raises the <see cref="E:SpreadsheetGear.Windows.Forms.WorkbookView.ScrollPositionChanged" /> event.
+            </summary>
+      <param name="e">An instance of <see cref="T:SpreadsheetGear.Windows.Forms.ScrollPositionChangedEventArgs" /> which contains the event data.</param>
+      <seealso cref="T:SpreadsheetGear.Windows.Forms.ScrollPositionChangedEventArgs" />
+      <seealso cref="E:SpreadsheetGear.Windows.Forms.WorkbookView.ScrollPositionChanged" />
+    </member>
+    <member name="M:SpreadsheetGear.Windows.Forms.WorkbookView.OnShapeAction(SpreadsheetGear.Windows.Forms.ShapeActionEventArgs)">
+      <summary>
+            Raises the <see cref="E:SpreadsheetGear.Windows.Forms.WorkbookView.ShapeAction" /> event.
+            </summary>
+      <param name="e">An instance of <see cref="T:SpreadsheetGear.Windows.Forms.ShapeActionEventArgs" /> which contains the event data.</param>
+      <seealso cref="T:SpreadsheetGear.Windows.Forms.ShapeActionEventArgs" />
+      <seealso cref="E:SpreadsheetGear.Windows.Forms.WorkbookView.ShapeAction" />
+    </member>
+    <member name="M:SpreadsheetGear.Windows.Forms.WorkbookView.OnShapeSelectionChanged(SpreadsheetGear.Windows.Forms.ShapeSelectionChangedEventArgs)">
+      <summary>
+            Raises the <see cref="E:SpreadsheetGear.Windows.Forms.WorkbookView.ShapeSelectionChanged" /> event.
+            </summary>
+      <param name="e">An instance of <see cref="T:SpreadsheetGear.Windows.Forms.ShapeSelectionChangedEventArgs" /> which contains the event data.</param>
+      <seealso cref="M:SpreadsheetGear.Windows.Forms.WorkbookView.OnShapeSelectionChanging(SpreadsheetGear.Windows.Forms.ShapeSelectionChangingEventArgs)" />
+      <seealso cref="T:SpreadsheetGear.Windows.Forms.ShapeSelectionChangedEventArgs" />
+      <seealso cref="E:SpreadsheetGear.Windows.Forms.WorkbookView.ShapeSelectionChanged" />
+    </member>
+    <member name="M:SpreadsheetGear.Windows.Forms.WorkbookView.OnShapeSelectionChanging(SpreadsheetGear.Windows.Forms.ShapeSelectionChangingEventArgs)">
+      <summary>
+            Raises the <see cref="E:SpreadsheetGear.Windows.Forms.WorkbookView.ShapeSelectionChanging" /> event.
+            </summary>
+      <param name="e">An instance of <see cref="T:SpreadsheetGear.Windows.Forms.ShapeSelectionChangingEventArgs" /> which contains the event data.</param>
+      <seealso cref="M:SpreadsheetGear.Windows.Forms.WorkbookView.OnShapeSelectionChanged(SpreadsheetGear.Windows.Forms.ShapeSelectionChangedEventArgs)" />
+      <seealso cref="T:SpreadsheetGear.Windows.Forms.ShapeSelectionChangingEventArgs" />
+      <seealso cref="E:SpreadsheetGear.Windows.Forms.WorkbookView.ShapeSelectionChanging" />
+    </member>
+    <member name="M:SpreadsheetGear.Windows.Forms.WorkbookView.OnShowError(SpreadsheetGear.Windows.Forms.ShowErrorEventArgs)">
+      <summary>
+            Raises the <strong>ShowError</strong> event.
+            </summary>
+      <param name="e">An instance of <strong>ShowErrorEventArgs</strong> which contains the event data.</param>
+      <seealso cref="T:SpreadsheetGear.Windows.Forms.ShowErrorEventArgs" />
+      <seealso cref="E:SpreadsheetGear.Windows.Forms.WorkbookView.ShowError" />
+    </member>
+    <member name="M:SpreadsheetGear.Windows.Forms.WorkbookView.CheckLayoutActiveAsync(SG.AsyncAwait.UIJob)">
+      <summary>
+            This method is called from the Active properties or when GUI
+            event code needs things to be laid out such as KeyHandler and
+            MouseHandler.  It only lays out what is necessary for the
+            public API's and events to work properly and makes sure the
+            control is initialized.
+            </summary>
+    </member>
+    <member name="M:SpreadsheetGear.Windows.Forms.WorkbookView.CheckLayoutActiveWithLock(SG.AsyncAwait.UIJob)">
+      <summary>
+            This method gets a lock if necessary before calling CheckLayoutActive().
+            </summary>
+    </member>
+    <member name="M:SpreadsheetGear.Windows.Forms.WorkbookView.CheckLayoutActiveWithLockAsync(SG.AsyncAwait.UIJob)">
+      <summary>
+            This method gets a lock if necessary before calling CheckLayoutActive().
+            </summary>
+    </member>
+    <member name="M:SpreadsheetGear.Windows.Forms.WorkbookView.CheckLayoutDisplayAsync(SG.AsyncAwait.UIJob)">
+      <summary>
+            Checks to see that WorkbookViewTab's are laid out correctly
+            when either default or custom tabs are being used.  If default
+            tabs are being used and we do not have a current workbook, we
+            use the first workbook we can find in the WorkbookSet, but only
+            if DisplaySupported is true.  The WorkbookDesigner turns this
+            property off so we don't use another workbook after closing.
+            </summary>
+    </member>
+    <member name="P:SpreadsheetGear.Windows.Forms.WorkbookView.ActiveCell">
+      <summary>
+            Returns the active cell of the active worksheet or null
+            if there is no active worksheet.
+            </summary>
+    </member>
+    <member name="P:SpreadsheetGear.Windows.Forms.WorkbookView.ActiveCommandManager">
+      <summary>
+            Returns the <strong>CommandManager</strong> associated with the
+            <strong>ActiveWorkbookSet</strong> of this workbook view.
+            </summary>
+    </member>
+    <member name="P:SpreadsheetGear.Windows.Forms.WorkbookView.ActiveSheet">
+      <summary>
+            Gets or sets the active sheet.
+            </summary>
+    </member>
+    <member name="P:SpreadsheetGear.Windows.Forms.WorkbookView.ActiveTabIndex">
+      <summary>
+            Gets or sets the active tab index.
+            </summary>
+    </member>
+    <member name="P:SpreadsheetGear.Windows.Forms.WorkbookView.ActiveWorkbook">
+      <summary>
+            Gets or sets the active workbook.
+            </summary>
+    </member>
+    <member name="P:SpreadsheetGear.Windows.Forms.WorkbookView.ActiveWorkbookWindowInfo">
+      <summary>
+            Returns the window information for the active workbook or null 
+            if there is no active workbook.
+            </summary>
+    </member>
+    <member name="P:SpreadsheetGear.Windows.Forms.WorkbookView.ActiveWorksheet">
+      <summary>
+            Gets or sets the active worksheet.
+            </summary>
+    </member>
+    <member name="P:SpreadsheetGear.Windows.Forms.WorkbookView.ActiveWorksheetWindowInfo">
+      <summary>
+            Returns the window information for the active worksheet or null 
+            if there is no active worksheet.
+            </summary>
+    </member>
+    <member name="P:SpreadsheetGear.Windows.Forms.WorkbookView.IsEditing">
+      <summary>
+            Gets the property which specifies whether the control is currently in edit mode.
+            </summary>
+    </member>
+    <member name="P:SpreadsheetGear.Windows.Forms.WorkbookView.RangeSelection">
+      <summary>
+            Gets or sets the selected range.
+            </summary>
+    </member>
+    <member name="P:SpreadsheetGear.Windows.Forms.WorkbookView.ShapeSelection">
+      <summary>
+            Gets or sets the selected shape range.
+            </summary>
+    </member>
+    <member name="M:SpreadsheetGear.Windows.Forms.WorkbookView.BeginEdit">
+      <summary>Puts the active cell or selected textbox in edit mode.</summary>
+    </member>
+    <member name="M:SpreadsheetGear.Windows.Forms.WorkbookView.CancelEdit">
+      <summary>Cancels edit mode and discards any changes.</summary>
+    </member>
+    <member name="M:SpreadsheetGear.Windows.Forms.WorkbookView.EndEdit">
+      <summary>Ends edit mode and commits any changes.</summary>
+    </member>
+    <member name="M:SpreadsheetGear.Windows.Forms.WorkbookView.BeginUpdate">
+      <summary>
+                Interrupts background calculation if necessary, acquires an exclusive lock on the
+                <see cref="T:SpreadsheetGear.IWorkbookSet">workbook set</see> associated with this
+                <see cref="T:SpreadsheetGear.Windows.Forms.WorkbookView" />, and suspends painting and events until
+                <see cref="M:SpreadsheetGear.Windows.Forms.WorkbookView.EndUpdate" /> is called.
+            </summary>
+      <seealso cref="M:SpreadsheetGear.IWorkbookSet.BeginUpdate" />
+      <remarks>
+        <para>
+                    The <see cref="T:SpreadsheetGear.Windows.Forms.WorkbookView" /> control adheres to the standard Windows
+                    Forms threading model. Calls to this method must be made from the thread which
+                    created the <strong>WorkbookView</strong>.
+                </para>
+        <para>
+                    See <see cref="M:SpreadsheetGear.IWorkbookSet.BeginUpdate" /> for more
+                    information.
+                </para>
+      </remarks>
+    </member>
+    <member name="M:SpreadsheetGear.Windows.Forms.WorkbookView.EndUpdate">
+      <summary>
+                Restores painting and events to the state they were in before the last call to
+                <see cref="M:SpreadsheetGear.Windows.Forms.WorkbookView.BeginUpdate" />, releases the lock acquired by
+                <strong>BeginUpdate</strong>, and starts background calculation if appropriate.
+            </summary>
+      <seealso cref="M:SpreadsheetGear.IWorkbookSet.EndUpdate" />
+      <remarks>
+        <para>
+                    The <see cref="T:SpreadsheetGear.Windows.Forms.WorkbookView" /> control adheres to the standard Windows
+                    Forms threading model. Calls to this method must be made from the thread which
+                    created the <strong>WorkbookView</strong>.
+                </para>
+        <para>
+                    See <see cref="M:SpreadsheetGear.IWorkbookSet.EndUpdate" /> for more
+                    information.
+                </para>
+      </remarks>
+    </member>
+    <member name="M:SpreadsheetGear.Windows.Forms.WorkbookView.LocationToRange(System.Double,System.Double,System.Double@,System.Double@)">
+      <summary>
+            Returns the fractional zero based row and column indexes representing the cell at the specified location.
+            </summary>
+      <param name="x">The horizontal screen coordinate of the column to find.</param>
+      <param name="y">The vertical screen coordinate of the row to find.</param>
+      <param name="row">The fractional zero based row.</param>
+      <param name="column">The fractional zero based column.</param>
+      <seealso cref="M:SpreadsheetGear.Windows.Forms.WorkbookView.LocationToRange(System.Double,System.Double,System.Double@,System.Double@,SpreadsheetGear.Controls.RangeLocationFlags)" />
+    </member>
+    <member name="M:SpreadsheetGear.Windows.Forms.WorkbookView.LocationToRange(System.Double,System.Double,System.Double@,System.Double@,SpreadsheetGear.Controls.RangeLocationFlags)">
+      <summary>
+            Returns the fractional zero based row and column indexes representing the cell at the specified location.
+            </summary>
+      <param name="x">Specifies the horizontal screen coordinate of the column to find.</param>
+      <param name="y">Specifies the vertical screen coordinate of the row to find.</param>
+      <param name="row">Returns the fractional zero based row.</param>
+      <param name="column">Returns the fractional zero based column.</param>
+      <param name="flags">Specifies which pane to use and whether to include row and column headers and outlines in the calculations.</param>
+      <seealso cref="M:SpreadsheetGear.Windows.Forms.WorkbookView.LocationToRange(System.Double,System.Double,System.Double@,System.Double@)" />
+    </member>
+    <member name="M:SpreadsheetGear.Windows.Forms.WorkbookView.RangeToLocation(System.Double,System.Double,System.Double@,System.Double@)">
+      <summary>
+            Returns the screen coordinates of the fractional zero based row and columns.
+            </summary>
+      <param name="row">Specifies the fractional zero based row.</param>
+      <param name="column">Specifies the fractional zero based column.</param>
+      <param name="x">Returns the horizontal screen coordinate (could be a very large positive or negative number if the column is far away from the currently displayed columns).</param>
+      <param name="y">Returns the vertical screen coordinate (could be a very large positive or negative number if the row is far away from the currently displayed rows).</param>
+      <seealso cref="M:SpreadsheetGear.Windows.Forms.WorkbookView.RangeToLocation(System.Double,System.Double,System.Double@,System.Double@,SpreadsheetGear.Controls.RangeLocationFlags)" />
+    </member>
+    <member name="M:SpreadsheetGear.Windows.Forms.WorkbookView.RangeToLocation(System.Double,System.Double,System.Double@,System.Double@,SpreadsheetGear.Controls.RangeLocationFlags)">
+      <summary>
+            Returns the screen coordinates of the fractional zero based row and columns.
+            </summary>
+      <param name="row">Specifies the fractional zero based row or -1 for the header or -2 for the outline.</param>
+      <param name="column">Specifies the fractional zero based column or -1 for the header or -2 for the outline.</param>
+      <param name="x">Returns the horizontal screen coordinate (could be a very large positive or negative number if the column is far away from the currently displayed columns).</param>
+      <param name="y">Returns the vertical screen coordinate (could be a very large positive or negative number if the row is far away from the currently displayed rows).</param>
+      <param name="flags">Specifies which pane to use and whether to include row and column headers and outlines in the calculations.</param>
+      <seealso cref="M:SpreadsheetGear.Windows.Forms.WorkbookView.RangeToLocation(System.Double,System.Double,System.Double@,System.Double@)" />
+    </member>
+    <member name="M:SpreadsheetGear.Windows.Forms.WorkbookView.Cut">
+      <summary>Cut the contents of the current selection to the clipboard.</summary>
+    </member>
+    <member name="M:SpreadsheetGear.Windows.Forms.WorkbookView.Copy">
+      <summary>Copy the contents of the current selection to the clipboard.</summary>
+    </member>
+    <member name="M:SpreadsheetGear.Windows.Forms.WorkbookView.Paste">
+      <summary>
+            Paste the clipboard contents to the current selection.
+            </summary>
+    </member>
+    <member name="M:SpreadsheetGear.Windows.Forms.WorkbookView.PasteSpecial(SpreadsheetGear.PasteType,SpreadsheetGear.PasteOperation,System.Boolean,System.Boolean)">
+      <summary>
+            Paste the clipboard contents to the current selection
+            using the specified options.
+            </summary>
+      <param name="pasteType">Specifies what to paste.</param>
+      <param name="pasteOperation">Specifies how to combine values.</param>
+      <param name="skipBlanks">Specifies whether blanks in the source range should be skipped (formatted cells with no data are considered blank cells).</param>
+      <param name="transpose">Specifies whether data should be transposed in the destination.</param>
+    </member>
+    <member name="M:SpreadsheetGear.Windows.Forms.WorkbookView.#ctor">
+      <summary>Initializes a new instance of a <see cref="T:SpreadsheetGear.Windows.Forms.WorkbookView" /> control.</summary>
+    </member>
+    <member name="P:SpreadsheetGear.Windows.Forms.WorkbookView.ActiveWorkbookSet">
+      <summary>
+                Gets or sets the <see cref="T:SpreadsheetGear.IWorkbookSet">workbook set</see>
+                associated with this workbook view.
+            </summary>
+    </member>
+    <member name="P:SpreadsheetGear.Windows.Forms.WorkbookView.ExtraColor">
+      <summary>
+            Gets or sets the color beyond the last row or column of the worksheet.
+            </summary>
+    </member>
+    <member name="M:SpreadsheetGear.Windows.Forms.WorkbookView.LocationToRange(System.Drawing.Point)">
+      <summary>
+            Returns an instance of <strong>IRange</strong> representing the cell at the
+            specified location or <strong>null</strong> if there is none.
+            </summary>
+      <returns>An instance of <strong>IRange</strong> representing the cell at the specified location or null if there is none</returns>
+      <example>
+        <code lang="CS">
+            /*
+                     * Demonstrate using the WorkbookView.LocationToRange method to convert
+                     * from mouse coordinates to an instance of SpreadsheetGear.IRange.
+                     */
+                    private void workbookView_MouseDown(object sender, MouseEventArgs e)
+                    {
+                        // Acquire a lock on the workbook set.
+                        workbookView.GetLock();
+                        try
+                        {
+                            // Get the range associated with the mouse location.
+                            SpreadsheetGear.IRange range =
+                                workbookView.LocationToRange(e.Location);
+             
+                            // If this location contains a range, set the interior to blue.
+                            if (range != null)
+                                range.EntireMergeArea.Interior.Color = Color.Blue;
+                        }
+                        finally
+                        {
+                            // Release the lock on the workbook set.
+                            workbookView.ReleaseLock();
+                        }
+                    }
+                </code>
+      </example>
+      <param name="location">Specifies the location.</param>
+    </member>
+    <member name="M:SpreadsheetGear.Windows.Forms.WorkbookView.ForcePaint">
+      <summary>
+            This method is only used from UI test code.
+            </summary>
+    </member>
+    <member name="M:SpreadsheetGear.Windows.Forms.WorkbookView.Invalidate">
+      <summary>
+            Invalidates the cached <c>WorkbookView</c> drawing state and calls <c>Control.Invalidate()</c>
+            which invalidates the surface of the <c>WorkbookView</c> and causes the <c>WorkbookView</c>
+            to be redrawn. This causes the entire <c>WorkbookView</c> to be laid out and redrawn.
+            </summary>
+      <remarks>This method is thread safe and may be called by non-UI threads.</remarks>
+      <seealso cref="M:SpreadsheetGear.Windows.Forms.WorkbookView.Update" />
+      <seealso cref="M:SpreadsheetGear.Windows.Forms.WorkbookView.Refresh" />
+    </member>
+    <member name="M:SpreadsheetGear.Windows.Forms.WorkbookView.Update">
+      <summary>
+            Causes the <c>WorkbookView</c> to update any invalid drawing state and calls 
+            <c>Control.Update()</c> which causes the <c>WorkbookView</c> to redraw any 
+            invalidated regions within the <c>WorkbookView</c>.
+            </summary>
+      <remarks>This method is thread safe and may be called by non-UI threads.</remarks>
+      <seealso cref="M:SpreadsheetGear.Windows.Forms.WorkbookView.Invalidate" />
+      <seealso cref="M:SpreadsheetGear.Windows.Forms.WorkbookView.Refresh" />
+    </member>
+    <member name="M:SpreadsheetGear.Windows.Forms.WorkbookView.Refresh">
+      <summary>
+            Forces the control to invalidate its client area and immediately redraw itself and any child controls. 
+            This method does not invalidate cached <c>WorkbookView</c> drawing state - only <c>WorkbookView.Invalidate</c> will do that.
+            </summary>
+      <remarks>This method is thread safe and may be called by non-UI threads.</remarks>
+      <seealso cref="M:SpreadsheetGear.Windows.Forms.WorkbookView.Invalidate" />
+      <seealso cref="M:SpreadsheetGear.Windows.Forms.WorkbookView.Update" />
+    </member>
+    <member name="T:SpreadsheetGear.Windows.Forms.ChartExplorer">
+      <summary>
+            Represents a <strong>Chart Explorer</strong> which provides the ability to format
+            the active chart of a workbook set.
+            </summary>
+      <remarks>
+        <para>
+                    Specify which categories to show by passing the appropriate
+                    <see cref="T:SpreadsheetGear.Windows.Forms.ChartExplorerCategoryFlags" /> to
+                    %ChartExplorer.ChartExplorer(SpreadsheetGear.IWorkbookSet,
+                    ChartExplorerCategoryFlags)%.
+                </para>
+      </remarks>
+    </member>
+    <member name="M:SpreadsheetGear.Windows.Forms.ChartExplorer.#ctor(SpreadsheetGear.IWorkbookSet)">
+      <summary>
+            Initializes a new instance of a SpreadsheetGear.Windows.Forms.ChartExplorer with the specified workbook set.
+            </summary>
+      <param name="workbookSet">The workbook set which will own this chart explorer.</param>
+    </member>
+    <member name="M:SpreadsheetGear.Windows.Forms.ChartExplorer.#ctor(SpreadsheetGear.IWorkbookSet,SpreadsheetGear.Windows.Forms.ChartExplorerCategoryFlags)">
+      <summary>
+            Initializes a new instance of a SpreadsheetGear.Windows.Forms.ChartExplorer with the specified workbook set and category options.
+            </summary>
+      <param name="workbookSet">The workbook set which will own this chart explorer.</param>
+      <param name="categoryFlags">Specifies which categories to display.</param>
+    </member>
+    <member name="F:SpreadsheetGear.Windows.Forms.ChartExplorer.components">
+      <summary>
+            Required designer variable.
+            </summary>
+    </member>
+    <member name="M:SpreadsheetGear.Windows.Forms.ChartExplorer.Dispose(System.Boolean)">
+      <summary>
+            Clean up any resources being used.
+            </summary>
+      <param name="disposing">true if managed resources should be disposed; otherwise, false.</param>
+    </member>
+    <member name="M:SpreadsheetGear.Windows.Forms.ChartExplorer.InitializeComponent">
+      <summary>
+            Required method for Designer support - do not modify
+            the contents of this method with the code editor.
+            </summary>
+    </member>
+    <member name="T:SpreadsheetGear.Windows.Forms.ChartExplorerCategoryFlags">
+      <summary>
+            Specifies which categories will be shown by the chart explorer.
+            </summary>
+    </member>
+    <member name="F:SpreadsheetGear.Windows.Forms.ChartExplorerCategoryFlags.None">
+      <summary>
+            Specifies that no category is available.
+            </summary>
+    </member>
+    <member name="F:SpreadsheetGear.Windows.Forms.ChartExplorerCategoryFlags.Axes">
+      <summary>
+            Specifies that the axes category is available.
+            </summary>
+    </member>
+    <member name="F:SpreadsheetGear.Windows.Forms.ChartExplorerCategoryFlags.ChartData">
+      <summary>
+            Specifies that the chart data category is available.
+            </summary>
+    </member>
+    <member name="F:SpreadsheetGear.Windows.Forms.ChartExplorerCategoryFlags.Legend">
+      <summary>
+            Specifies that the legend category is available.
+            </summary>
+    </member>
+    <member name="F:SpreadsheetGear.Windows.Forms.ChartExplorerCategoryFlags.SeriesCollection">
+      <summary>
+            Specifies that the series collection category is available.
+            </summary>
+    </member>
+    <member name="F:SpreadsheetGear.Windows.Forms.ChartExplorerCategoryFlags.ChartArea">
+      <summary>
+            Specifies that the chart area category is available.
+            </summary>
+    </member>
+    <member name="F:SpreadsheetGear.Windows.Forms.ChartExplorerCategoryFlags.ChartTitle">
+      <summary>
+            Specifies that the chart title category is available.
+            </summary>
+    </member>
+    <member name="F:SpreadsheetGear.Windows.Forms.ChartExplorerCategoryFlags.PlotArea">
+      <summary>
+            Specifies that the plot area category is available.
+            </summary>
+    </member>
+    <member name="F:SpreadsheetGear.Windows.Forms.ChartExplorerCategoryFlags.PageSetup">
+      <summary>
+            Specifies that the page setup category is available.
+            </summary>
+    </member>
+    <member name="F:SpreadsheetGear.Windows.Forms.ChartExplorerCategoryFlags.All">
+      <summary>
+            Specifies that all categories are available.
+            </summary>
+    </member>
+    <member name="T:SpreadsheetGear.Windows.Forms.CommandPrint">
+      <summary>
+            Represents the default print command for Windows Forms.
+            </summary>
+      <remarks>Extend this class to provide a custom print command.</remarks>
+      <seealso cref="T:SpreadsheetGear.Commands.Command" />
+      <seealso cref="T:SpreadsheetGear.Commands.CommandManager" />
+    </member>
+    <member name="M:SpreadsheetGear.Windows.Forms.CommandPrint.#ctor(SpreadsheetGear.ISheet,SpreadsheetGear.Printing.PrintWhat,System.Boolean,System.Boolean)">
+      <summary>
+            Initializes this <strong>Command</strong> with the specified
+            <strong>ISheet</strong> and print options.
+            </summary>
+      <param name="sheet">Specifies the sheet.</param>
+      <param name="printWhat">Specifies what to print.</param>
+      <param name="printPreview">Specifies whether to do a print preview.</param>
+      <param name="showPrintDialog">Specifies whether the print dialog should be displayed before printing.</param>
+    </member>
+    <member name="M:SpreadsheetGear.Windows.Forms.CommandPrint.#ctor(System.Collections.Generic.ICollection{SpreadsheetGear.IPrintable},System.Boolean,System.Boolean)">
+      <summary>
+            Initializes this <strong>Command</strong> with the specified printable objects.
+            </summary>
+      <param name="printables">Specifies a list of printable objects.</param>
+      <param name="printPreview">Specifies whether to do a print preview.</param>
+      <param name="showPrintDialog">Specifies whether the print dialog should be displayed before printing.</param>
+    </member>
+    <member name="M:SpreadsheetGear.Windows.Forms.CommandPrint.CreatePrintDocument(SpreadsheetGear.ISheet,SpreadsheetGear.Printing.PrintWhat)">
+      <summary>
+            Creates an instance of the default print document.
+            </summary>
+      <param name="sheet">Specifies the sheet.</param>
+      <param name="printWhat">Specifies what to print.</param>
+      <remarks>Override this method to provide a custom print document.</remarks>
+    </member>
+    <member name="M:SpreadsheetGear.Windows.Forms.CommandPrint.CreatePrintDocument(System.Collections.Generic.ICollection{SpreadsheetGear.IPrintable})">
+      <summary>
+            Creates an instance of the default print document.
+            </summary>
+      <param name="printables">Specifies a list of printable objects.</param>
+      <remarks>Override this method to provide a custom print document.</remarks>
+    </member>
+    <member name="T:SpreadsheetGear.Windows.Forms.ActiveTabChangedEventHandler">
+      <summary>
+            Represents the method which handles an <strong>ActiveTabChanged</strong>
+            event.
+            </summary>
+    </member>
+    <member name="T:SpreadsheetGear.Windows.Forms.ActiveTabChangingEventHandler">
+      <summary>
+            Represents the method which handles an <strong>ActiveTabChanging</strong>
+            event.
+            </summary>
+    </member>
+    <member name="T:SpreadsheetGear.Windows.Forms.CalculateEventHandler">
+      <summary>Represents the method which handles a <strong>Calculate</strong> event.</summary>
+    </member>
+    <member name="T:SpreadsheetGear.Windows.Forms.CellBeginEditEventHandler">
+      <summary>
+            Represents the method which handles a <strong>CellBeginEdit</strong>
+            event.
+            </summary>
+    </member>
+    <member name="T:SpreadsheetGear.Windows.Forms.CellCancelEditEventHandler">
+      <summary>
+            Represents the method which handles a <strong>CellCancelEdit</strong>
+            event.
+            </summary>
+    </member>
+    <member name="T:SpreadsheetGear.Windows.Forms.CellEndEditEventHandler">
+      <summary>Represents the method which handles a <strong>CellEndEdit</strong> event.</summary>
+    </member>
+    <member name="T:SpreadsheetGear.Windows.Forms.RangeChangedEventHandler">
+      <summary>Represents the method which handles a <strong>RangeChanged</strong> event.</summary>
+    </member>
+    <member name="T:SpreadsheetGear.Windows.Forms.RangeSelectionChangedEventHandler">
+      <summary>
+            Represents the method which handles a <strong>RangeSelectionChanged</strong>
+            event.
+            </summary>
+    </member>
+    <member name="T:SpreadsheetGear.Windows.Forms.RangeSelectionChangingEventHandler">
+      <summary>
+            Represents the method which handles a <strong>RangeSelectionChanging</strong>
+            event.
+            </summary>
+    </member>
+    <member name="T:SpreadsheetGear.Windows.Forms.ScrollPositionChangedEventHandler">
+      <summary>
+            Represents the method which handles a <strong>ScrollPositionChanged</strong>
+            event.
+            </summary>
+    </member>
+    <member name="T:SpreadsheetGear.Windows.Forms.ShapeActionEventHandler">
+      <summary>
+            Represents the method which handles a <strong>ShapeAction</strong>
+            event.
+            </summary>
+    </member>
+    <member name="T:SpreadsheetGear.Windows.Forms.ShapeSelectionChangedEventHandler">
+      <summary>
+            Represents the method which handles a <strong>ShapeSelectionChanged</strong>
+            event.
+            </summary>
+    </member>
+    <member name="T:SpreadsheetGear.Windows.Forms.ShapeSelectionChangingEventHandler">
+      <summary>
+            Represents the method which handles a <strong>ShapeSelectionChanging</strong>
+            event.
+            </summary>
+    </member>
+    <member name="T:SpreadsheetGear.Windows.Forms.ShowErrorEventHandler">
+      <summary>
+            Represents the method which handles a <strong>ShowError</strong>
+            event.
+            </summary>
+    </member>
+    <member name="T:SpreadsheetGear.Windows.Forms.ActiveTabChangedEventArgs">
+      <summary>Provides data for an <strong>ActiveTabChanged</strong> event.</summary>
+    </member>
+    <member name="P:SpreadsheetGear.Windows.Forms.ActiveTabChangedEventArgs.Sheet">
+      <summary>Returns the new sheet.</summary>
+    </member>
+    <member name="P:SpreadsheetGear.Windows.Forms.ActiveTabChangedEventArgs.TabIndex">
+      <summary>Returns the new tab index.</summary>
+    </member>
+    <member name="T:SpreadsheetGear.Windows.Forms.ActiveTabChangingEventArgs">
+      <summary>Provides data for an <strong>ActiveTabChanging</strong> event.</summary>
+    </member>
+    <member name="P:SpreadsheetGear.Windows.Forms.ActiveTabChangingEventArgs.Cancel">
+      <summary>
+            Gets or sets the value which specifies whether the event should be canceled.
+            </summary>
+    </member>
+    <member name="P:SpreadsheetGear.Windows.Forms.ActiveTabChangingEventArgs.Sheet">
+      <summary>Returns the new sheet.</summary>
+    </member>
+    <member name="P:SpreadsheetGear.Windows.Forms.ActiveTabChangingEventArgs.TabIndex">
+      <summary>Returns the new tab index.</summary>
+    </member>
+    <member name="T:SpreadsheetGear.Windows.Forms.CalculateEventArgs">
+      <summary>Provides data for a <strong>Calculate</strong> event.</summary>
+    </member>
+    <member name="T:SpreadsheetGear.Windows.Forms.CellBeginEditReason">
+      <summary>
+            Specifies the reason for a cell begin edit event.
+            </summary>
+    </member>
+    <member name="T:SpreadsheetGear.Windows.Forms.CellBeginEditEventArgs">
+      <summary>Provides data for a <strong>CellBeginEdit</strong> event.</summary>
+    </member>
+    <member name="P:SpreadsheetGear.Windows.Forms.CellBeginEditEventArgs.Cancel">
+      <summary>
+            Gets or sets the value which specifies whether the event should be
+            canceled.
+            </summary>
+    </member>
+    <member name="P:SpreadsheetGear.Windows.Forms.CellBeginEditEventArgs.Entry">
+      <summary>Gets or sets the edit entry text.</summary>
+    </member>
+    <member name="P:SpreadsheetGear.Windows.Forms.CellBeginEditEventArgs.Reason">
+      <summary>
+            Gets the reason for the event.
+            </summary>
+    </member>
+    <member name="T:SpreadsheetGear.Windows.Forms.CellCancelEditEventArgs">
+      <summary>Provides data for a <strong>CellCancelEdit</strong> event.</summary>
+    </member>
+    <member name="P:SpreadsheetGear.Windows.Forms.CellCancelEditEventArgs.ActiveCell">
+      <summary>Returns the active cell from the time edit mode was started.</summary>
+    </member>
+    <member name="P:SpreadsheetGear.Windows.Forms.CellCancelEditEventArgs.RangeSelection">
+      <summary>Returns the range selection from the time edit mode was started.</summary>
+    </member>
+    <member name="P:SpreadsheetGear.Windows.Forms.CellCancelEditEventArgs.Cancel">
+      <summary>
+            Gets or sets the value which specifies whether the event should be
+            canceled.
+            </summary>
+    </member>
+    <member name="P:SpreadsheetGear.Windows.Forms.CellCancelEditEventArgs.Entry">
+      <summary>Gets or sets the edit entry text.</summary>
+    </member>
+    <member name="T:SpreadsheetGear.Windows.Forms.CellEndEditEventArgs">
+      <summary>
+            Provides data for a CellEndEdit event.
+            </summary>
+    </member>
+    <member name="P:SpreadsheetGear.Windows.Forms.CellEndEditEventArgs.ActiveCell">
+      <summary>Returns the active cell from the time edit mode was started.</summary>
+    </member>
+    <member name="P:SpreadsheetGear.Windows.Forms.CellEndEditEventArgs.RangeSelection">
+      <summary>Returns the range selection from the time edit mode was started.</summary>
+    </member>
+    <member name="P:SpreadsheetGear.Windows.Forms.CellEndEditEventArgs.Cancel">
+      <summary>
+            Gets or sets the value which specifies whether the event should be
+            canceled.
+            </summary>
+    </member>
+    <member name="P:SpreadsheetGear.Windows.Forms.CellEndEditEventArgs.Entry">
+      <summary>Gets or sets the edit entry text.</summary>
+    </member>
+    <member name="T:SpreadsheetGear.Windows.Forms.RangeChangedEventArgs">
+      <summary>
+            Provides data for a RangeChanged event.
+            </summary>
+    </member>
+    <member name="P:SpreadsheetGear.Windows.Forms.RangeChangedEventArgs.Range">
+      <summary>Returns the range that was changed.</summary>
+    </member>
+    <member name="T:SpreadsheetGear.Windows.Forms.RangeSelectionChangedEventArgs">
+      <summary>
+            Provides data for a RangeSelectionChanged event.
+            </summary>
+    </member>
+    <member name="P:SpreadsheetGear.Windows.Forms.RangeSelectionChangedEventArgs.RangeSelection">
+      <summary>Returns the new range selection.</summary>
+    </member>
+    <member name="T:SpreadsheetGear.Windows.Forms.RangeSelectionChangingEventArgs">
+      <summary>
+            Provides data for a RangeSelectionChanging event.
+            </summary>
+    </member>
+    <member name="P:SpreadsheetGear.Windows.Forms.RangeSelectionChangingEventArgs.Cancel">
+      <summary>Gets or sets the value which specifies whether the event will be canceled.</summary>
+    </member>
+    <member name="P:SpreadsheetGear.Windows.Forms.RangeSelectionChangingEventArgs.RangeSelection">
+      <summary>Returns the new range selection.</summary>
+    </member>
+    <member name="T:SpreadsheetGear.Windows.Forms.ScrollPositionChangedEventArgs">
+      <summary>
+            Provides data for a ScrollPositionChanged event.
+            </summary>
+    </member>
+    <member name="T:SpreadsheetGear.Windows.Forms.ShapeActionType">
+      <summary>
+            Specifies the type of shape action.
+            </summary>
+    </member>
+    <member name="T:SpreadsheetGear.Windows.Forms.ShapeActionEventArgs">
+      <summary>
+            Provides data for a ShapeAction event.
+            </summary>
+    </member>
+    <member name="P:SpreadsheetGear.Windows.Forms.ShapeActionEventArgs.Control">
+      <summary>Returns the control responsible for the action or null
+            if the shape is not a form control, textbox editor, or comment editor.</summary>
+    </member>
+    <member name="P:SpreadsheetGear.Windows.Forms.ShapeActionEventArgs.Shape">
+      <summary>Returns the shape responsible for the action.</summary>
+    </member>
+    <member name="P:SpreadsheetGear.Windows.Forms.ShapeActionEventArgs.ShapeActionType">
+      <summary>Returns the shape action type.</summary>
+    </member>
+    <member name="T:SpreadsheetGear.Windows.Forms.ShapeSelectionChangedEventArgs">
+      <summary>
+            Provides data for a ShapeSelectionChanged event.
+            </summary>
+    </member>
+    <member name="P:SpreadsheetGear.Windows.Forms.ShapeSelectionChangedEventArgs.ShapeSelection">
+      <summary>Returns the new shape selection.</summary>
+    </member>
+    <member name="T:SpreadsheetGear.Windows.Forms.ShapeSelectionChangingEventArgs">
+      <summary>
+            Provides data for a ShapeSelectionChanging event.
+            </summary>
+    </member>
+    <member name="P:SpreadsheetGear.Windows.Forms.ShapeSelectionChangingEventArgs.Cancel">
+      <summary>Gets or sets the value which specifies whether the event will be canceled.</summary>
+    </member>
+    <member name="P:SpreadsheetGear.Windows.Forms.ShapeSelectionChangingEventArgs.ShapeSelection">
+      <summary>Returns the new shape selection.</summary>
+    </member>
+    <member name="T:SpreadsheetGear.Windows.Forms.ShowErrorEventArgs">
+      <summary>Provides data for a <strong>ShowError</strong> event.</summary>
+    </member>
+    <member name="P:SpreadsheetGear.Windows.Forms.ShowErrorEventArgs.Caption">
+      <summary>Gets or sets the caption of the error message box.</summary>
+    </member>
+    <member name="P:SpreadsheetGear.Windows.Forms.ShowErrorEventArgs.Handled">
+      <summary>
+            Gets or sets a value indicating whether the event was handled.
+            </summary>
+    </member>
+    <member name="P:SpreadsheetGear.Windows.Forms.ShowErrorEventArgs.Message">
+      <summary>Gets or sets the message to display in the error message box.</summary>
+    </member>
+    <member name="T:SpreadsheetGear.Windows.Forms.RangeExplorer">
+      <summary>
+            Represents a <strong>Range Explorer</strong> which provides the ability to format
+            the active range selection of a workbook set.
+            </summary>
+      <remarks>
+        <para>
+                    Specify which categories to show by passing the appropriate
+                    <see cref="T:SpreadsheetGear.Windows.Forms.RangeExplorerCategoryFlags" /> to
+                    %RangeExplorer.RangeExplorer(SpreadsheetGear.IWorkbookSet,
+                    RangeExplorerCategoryFlags)%.
+                </para>
+      </remarks>
+    </member>
+    <member name="M:SpreadsheetGear.Windows.Forms.RangeExplorer.#ctor(SpreadsheetGear.IWorkbookSet)">
+      <summary>
+            Initializes a new instance of a SpreadsheetGear.Windows.Forms.RangeExplorer with the specified workbook set.
+            </summary>
+      <param name="workbookSet">The workbook set which will own this range explorer.</param>
+    </member>
+    <member name="M:SpreadsheetGear.Windows.Forms.RangeExplorer.#ctor(SpreadsheetGear.IWorkbookSet,SpreadsheetGear.Windows.Forms.RangeExplorerCategoryFlags)">
+      <summary>
+            Initializes a new instance of a SpreadsheetGear.Windows.Forms.RangeExplorer with the specified workbook set and category options.
+            </summary>
+      <param name="workbookSet">The workbook set which will own this range explorer.</param>
+      <param name="categoryFlags">Specifies which categories to display.</param>
+    </member>
+    <member name="F:SpreadsheetGear.Windows.Forms.RangeExplorer.components">
+      <summary>
+            Required designer variable.
+            </summary>
+    </member>
+    <member name="M:SpreadsheetGear.Windows.Forms.RangeExplorer.Dispose(System.Boolean)">
+      <summary>
+            Clean up any resources being used.
+            </summary>
+      <param name="disposing">true if managed resources should be disposed; otherwise, false.</param>
+    </member>
+    <member name="M:SpreadsheetGear.Windows.Forms.RangeExplorer.InitializeComponent">
+      <summary>
+            Required method for Designer support - do not modify
+            the contents of this method with the code editor.
+            </summary>
+    </member>
+    <member name="T:SpreadsheetGear.Windows.Forms.RangeExplorerCategoryFlags">
+      <summary>
+            Specifies which categories will be shown by the range explorer.
+            </summary>
+    </member>
+    <member name="F:SpreadsheetGear.Windows.Forms.RangeExplorerCategoryFlags.None">
+      <summary>
+            Specifies that no category is available.
+            </summary>
+    </member>
+    <member name="F:SpreadsheetGear.Windows.Forms.RangeExplorerCategoryFlags.Alignment">
+      <summary>
+            Specifies that the alignment category is available.
+            </summary>
+    </member>
+    <member name="F:SpreadsheetGear.Windows.Forms.RangeExplorerCategoryFlags.Borders">
+      <summary>
+            Specifies that the borders category is available.
+            </summary>
+    </member>
+    <member name="F:SpreadsheetGear.Windows.Forms.RangeExplorerCategoryFlags.Font">
+      <summary>
+            Specifies that the font category is available.
+            </summary>
+    </member>
+    <member name="F:SpreadsheetGear.Windows.Forms.RangeExplorerCategoryFlags.Interior">
+      <summary>
+            Specifies that the interior category is available.
+            </summary>
+    </member>
+    <member name="F:SpreadsheetGear.Windows.Forms.RangeExplorerCategoryFlags.NumberFormat">
+      <summary>
+            Specifies that the number format category is available.
+            </summary>
+    </member>
+    <member name="F:SpreadsheetGear.Windows.Forms.RangeExplorerCategoryFlags.Protection">
+      <summary>
+            Specifies that the protection category is available.
+            </summary>
+    </member>
+    <member name="F:SpreadsheetGear.Windows.Forms.RangeExplorerCategoryFlags.Hyperlink">
+      <summary>
+            Specifies that the hyperlink category is available.
+            </summary>
+    </member>
+    <member name="F:SpreadsheetGear.Windows.Forms.RangeExplorerCategoryFlags.Validation">
+      <summary>
+            Specifies that the validation category is available.
+            </summary>
+    </member>
+    <member name="F:SpreadsheetGear.Windows.Forms.RangeExplorerCategoryFlags.FormatConditions">
+      <summary>
+            Specifies that the conditional formats category is available.
+            </summary>
+    </member>
+    <member name="F:SpreadsheetGear.Windows.Forms.RangeExplorerCategoryFlags.All">
+      <summary>
+            Specifies that all categories are available.
+            </summary>
+    </member>
+    <member name="T:SpreadsheetGear.Windows.Forms.ShapeExplorer">
+      <summary>
+            Represents a <strong>Shape Explorer</strong> which provides the ability to format
+            the active shape selection of a workbook set.
+            </summary>
+      <remarks>
+        <para>
+                    Specify which categories to show by passing the appropriate
+                    <see cref="T:SpreadsheetGear.Windows.Forms.ShapeExplorerCategoryFlags" /> to
+                    %ShapeExplorer.ShapeExplorer(SpreadsheetGear.IWorkbookSet,
+                    ShapeExplorerCategoryFlags)%.
+                </para>
+      </remarks>
+    </member>
+    <member name="M:SpreadsheetGear.Windows.Forms.ShapeExplorer.#ctor(SpreadsheetGear.IWorkbookSet)">
+      <summary>
+            Initializes a new instance of a SpreadsheetGear.Windows.Forms.ShapeExplorer with the specified workbook set.
+            </summary>
+      <param name="workbookSet">The workbook set which will own this shape explorer.</param>
+    </member>
+    <member name="M:SpreadsheetGear.Windows.Forms.ShapeExplorer.#ctor(SpreadsheetGear.IWorkbookSet,SpreadsheetGear.Windows.Forms.ShapeExplorerCategoryFlags)">
+      <summary>
+            Initializes a new instance of a SpreadsheetGear.Windows.Forms.ShapeExplorer with the specified workbook set and category options.
+            </summary>
+      <param name="workbookSet">The workbook set which will own this shape explorer.</param>
+      <param name="categoryFlags">Specifies which categories to display.</param>
+    </member>
+    <member name="F:SpreadsheetGear.Windows.Forms.ShapeExplorer.components">
+      <summary>
+            Required designer variable.
+            </summary>
+    </member>
+    <member name="M:SpreadsheetGear.Windows.Forms.ShapeExplorer.Dispose(System.Boolean)">
+      <summary>
+            Clean up any resources being used.
+            </summary>
+      <param name="disposing">true if managed resources should be disposed; otherwise, false.</param>
+    </member>
+    <member name="M:SpreadsheetGear.Windows.Forms.ShapeExplorer.InitializeComponent">
+      <summary>
+            Required method for Designer support - do not modify
+            the contents of this method with the code editor.
+            </summary>
+    </member>
+    <member name="T:SpreadsheetGear.Windows.Forms.ShapeExplorerCategoryFlags">
+      <summary>
+            Specifies which categories will be shown by the shape explorer.
+            </summary>
+    </member>
+    <member name="F:SpreadsheetGear.Windows.Forms.ShapeExplorerCategoryFlags.None">
+      <summary>
+            Specifies that no category is available.
+            </summary>
+    </member>
+    <member name="F:SpreadsheetGear.Windows.Forms.ShapeExplorerCategoryFlags.Alignment">
+      <summary>
+            Specifies that the alignment category is available.
+            </summary>
+    </member>
+    <member name="F:SpreadsheetGear.Windows.Forms.ShapeExplorerCategoryFlags.AutoShape">
+      <summary>
+            Specifies that the auto shape category is available.
+            </summary>
+    </member>
+    <member name="F:SpreadsheetGear.Windows.Forms.ShapeExplorerCategoryFlags.Control">
+      <summary>
+            Specifies that the control category is available.
+            </summary>
+    </member>
+    <member name="F:SpreadsheetGear.Windows.Forms.ShapeExplorerCategoryFlags.Fill">
+      <summary>
+            Specifies that the fill category is available.
+            </summary>
+    </member>
+    <member name="F:SpreadsheetGear.Windows.Forms.ShapeExplorerCategoryFlags.Font">
+      <summary>
+            Specifies that the font category is available.
+            </summary>
+    </member>
+    <member name="F:SpreadsheetGear.Windows.Forms.ShapeExplorerCategoryFlags.Line">
+      <summary>
+            Specifies that the line category is available.
+            </summary>
+    </member>
+    <member name="F:SpreadsheetGear.Windows.Forms.ShapeExplorerCategoryFlags.Protection">
+      <summary>
+            Specifies that the protection category is available.
+            </summary>
+    </member>
+    <member name="F:SpreadsheetGear.Windows.Forms.ShapeExplorerCategoryFlags.All">
+      <summary>
+            Specifies that all categories are available.
+            </summary>
+    </member>
+    <member name="T:SpreadsheetGear.Windows.Forms.WorkbookDesigner">
+      <summary>Represents a <strong>Workbook Designer</strong>.</summary>
+    </member>
+    <member name="M:SpreadsheetGear.Windows.Forms.WorkbookDesigner.#ctor">
+      <summary>
+            Initializes a new instance of <strong>WorbookDesigner</strong>.
+            </summary>
+    </member>
+    <member name="M:SpreadsheetGear.Windows.Forms.WorkbookDesigner.#ctor(System.String[])">
+      <summary>
+            Initializes a new instance of WorbookDesigner and opens
+            the specified workbooks after the designer is shown.
+            </summary>
+    </member>
+    <member name="M:SpreadsheetGear.Windows.Forms.WorkbookDesigner.#ctor(SpreadsheetGear.IWorkbookSet)">
+      <summary>
+            Initializes a new instance of WorkbookDesigner with the specified workbook set.
+            </summary>
+      <param name="workbookSet">A workbook set to view in the designer. If workbookSet is null,
+            a new IWorkbookSet will be created.</param>
+    </member>
+    <member name="P:SpreadsheetGear.Windows.Forms.WorkbookDesigner.ActiveCell">
+      <summary>
+            Returns the active cell of the active worksheet or null
+            if there is no active worksheet.
+            </summary>
+    </member>
+    <member name="P:SpreadsheetGear.Windows.Forms.WorkbookDesigner.ActiveSheet">
+      <summary>
+            Returns the active sheet or null if there is no active sheet.
+            </summary>
+    </member>
+    <member name="P:SpreadsheetGear.Windows.Forms.WorkbookDesigner.ActiveWorkbook">
+      <summary>
+            Returns the active workbook or null if there is no active workbook.
+            </summary>
+    </member>
+    <member name="P:SpreadsheetGear.Windows.Forms.WorkbookDesigner.ActiveWorkbookSet">
+      <summary>
+            Returns the active workbook set.
+            </summary>
+    </member>
+    <member name="P:SpreadsheetGear.Windows.Forms.WorkbookDesigner.ActiveWorksheet">
+      <summary>
+            Returns the active worksheet or null if there is no active worksheet.
+            </summary>
+    </member>
+    <member name="P:SpreadsheetGear.Windows.Forms.WorkbookDesigner.RangeSelection">
+      <summary>
+            Returns the currently selected range of the active worksheet or null
+            if there is no active worksheet.
+            </summary>
+    </member>
+    <member name="P:SpreadsheetGear.Windows.Forms.WorkbookDesigner.ShapeSelection">
+      <summary>
+            Returns the currently selected shapes of the active worksheet or null
+            if there is no active worksheet.
+            </summary>
+    </member>
+    <member name="M:SpreadsheetGear.Windows.Forms.WorkbookDesigner.ValidateMenuCommands">
+      <summary>
+            Use CommandValidator or SelectionManager here since this only 
+            gets called when menus are opened or menu shortcut keys are used.
+            </summary>
+    </member>
+    <member name="M:SpreadsheetGear.Windows.Forms.WorkbookDesigner.ValidateUndo">
+      <summary>
+            DO NOT USE CommandValidator or SelectionManager.
+            This is validated separately since Undo/Redo enabled states
+            can change without having the typical UI and Core events.
+            </summary>
+    </member>
+    <member name="F:SpreadsheetGear.Windows.Forms.WorkbookDesigner.components">
+      <summary>
+            Required designer variable.
+            </summary>
+    </member>
+    <member name="M:SpreadsheetGear.Windows.Forms.WorkbookDesigner.Dispose(System.Boolean)">
+      <summary>
+            Clean up any resources being used.
+            </summary>
+      <param name="disposing">true if managed resources should be disposed; otherwise, false.</param>
+    </member>
+    <member name="M:SpreadsheetGear.Windows.Forms.WorkbookDesigner.InitializeComponent">
+      <summary>
+            Required method for Designer support - do not modify
+            the contents of this method with the code editor.
+            </summary>
+    </member>
+    <member name="T:SpreadsheetGear.Windows.Forms.WorkbookExplorer">
+      <summary>
+            Represents a WorkbookExplorer that can be used to explore and set properties
+            on the workbooks and worksheets contained in a workbook set.
+            </summary>
+    </member>
+    <member name="M:SpreadsheetGear.Windows.Forms.WorkbookExplorer.#ctor(SpreadsheetGear.IWorkbookSet)">
+      <summary>
+            Initializes a new instance of a SpreadsheetGear.Windows.Forms.WorkbookExplorer.
+            </summary>
+      <param name="workbookSet">A workbook set to explore.</param>
+    </member>
+    <member name="P:SpreadsheetGear.Windows.Forms.WorkbookExplorer.AllowWorkbookDesigner">
+      <summary>
+                Gets or sets the property which specifies whether the
+                <see cref="T:SpreadsheetGear.Windows.Forms.WorkbookDesigner">Workbook Designer</see> can be launched from the
+                workbook explorer.
+            </summary>
+      <remarks>
+        <para>
+                    This property defaults to the value returned from the active WorkbookView's
+                    AllowWorkbookDesigner property.  You can override this default behavior by
+                    setting this property directly.
+                </para>
+      </remarks>
+    </member>
+    <member name="F:SpreadsheetGear.Windows.Forms.WorkbookExplorer.components">
+      <summary>
+            Required designer variable.
+            </summary>
+    </member>
+    <member name="M:SpreadsheetGear.Windows.Forms.WorkbookExplorer.Dispose(System.Boolean)">
+      <summary>
+            Clean up any resources being used.
+            </summary>
+      <param name="disposing">true if managed resources should be disposed; otherwise, false.</param>
+    </member>
+    <member name="M:SpreadsheetGear.Windows.Forms.WorkbookExplorer.InitializeComponent">
+      <summary>
+            Required method for Designer support - do not modify
+            the contents of this method with the code editor.
+            </summary>
+    </member>
+    <member name="T:SpreadsheetGear.Windows.Forms.Properties.Resources">
+      <summary>
+              A strongly-typed resource class, for looking up localized strings, etc.
+            </summary>
+    </member>
+    <member name="P:SpreadsheetGear.Windows.Forms.Properties.Resources.ResourceManager">
+      <summary>
+              Returns the cached ResourceManager instance used by this class.
+            </summary>
+    </member>
+    <member name="P:SpreadsheetGear.Windows.Forms.Properties.Resources.Culture">
+      <summary>
+              Overrides the current thread's CurrentUICulture property for all
+              resource lookups using this strongly typed resource class.
+            </summary>
+    </member>
+  </members>
+</doc>
